@@ -12,12 +12,12 @@ $options->set('defaultFont', 'Calibri');
 
 $dompdf = new Dompdf($options);
 
-$html = file_get_contents('template_riplay_100_percent.html');
+$html = file_get_contents('riplay_fixed.html');
 
 // Fix broken CSS from Aspose export
-$html = str_replace('max- !important;', 'max-width: 100% !important;', $html);
-$html = str_replace(' !important; font-size:', ' font-size:', $html);
-$html = str_replace("font-size: 8.5pt !important;", "font-size: 10pt !important;", $html);
+// $html = str_replace('max- !important;', 'max-width: 100% !important;', $html);
+// $html = str_replace(' !important; font-size:', ' font-size:', $html);
+// $html = str_replace("font-size: 8.5pt !important;", "font-size: 10pt !important;", $html);
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');

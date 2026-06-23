@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ringkasan Informasi Produk dan/atau Layanan</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 12mm 10mm;
+  }
+
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* ===== HEADER ===== */
+  .header-container {
+    width: 100%;
+    border-bottom: 2.5px solid #005691;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .header-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .header-table td {
+    vertical-align: middle;
+    padding: 0;
+  }
+  .logo-img {
+    height: 42px;
+    width: auto;
+    display: block;
+  }
+  .doc-title {
+    text-align: right;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #005691;
+    white-space: nowrap;
+  }
+
+  /* ===== MAIN OUTER TABLE ===== */
+  .main-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .main-table td {
+    padding: 5px 6px;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-header {
+    background-color: #000;
+    text-align: center;
+    padding: 5px 6px;
+    border-bottom: 1px solid #000;
+  }
+  .section-header span {
+    color: #fff;
+    font-weight: bold;
+    font-size: 8.5pt;
+    font-family: 'Calibri', Arial, sans-serif;
+  }
+  .section-subheader {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 5px 6px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+  .section-subheader span {
+    font-weight: bold;
+    font-size: 8.5pt;
+    font-family: 'Calibri', Arial, sans-serif;
+  }
+
+  /* ===== INNER TABLES ===== */
+  .inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .inner-table td {
+    padding: 3px 5px;
+    vertical-align: middle;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    word-wrap: break-word;
+  }
+
+  /* ===== DATA CELLS ===== */
+  td.data-cell {
+    background-color: #dbe5f1;
+  }
+  .highlight-yellow {
+    background-color: #ffff00;
+  }
+  .highlight-blue {
+    background-color: #c6d9f1;
+  }
+
+  /* ===== BORDERED INNER TABLE ===== */
+  .bordered-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .bordered-table td, .bordered-table th {
+    border: 1px solid #000;
+    padding: 4px 6px;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  .bordered-table th {
+    background-color: #eeece1;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* ===== THREE-COLUMN BENEFITS TABLE ===== */
+  .benefits-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .benefits-table td {
+    border: 1px solid #000;
+    padding: 5px 6px;
+    vertical-align: top;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    word-wrap: break-word;
+  }
+  .benefits-table .col-header {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+    font-size: 8.5pt;
+  }
+
+  /* ===== PERSYARATAN TABLE ===== */
+  .syarat-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .syarat-table td {
+    border: 1px solid #000;
+    padding: 5px 6px;
+    vertical-align: top;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    word-wrap: break-word;
+  }
+  .syarat-table .header-cell {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 8.5pt;
+  }
+
+  /* ===== PERNYATAAN TABLE ===== */
+  .pernyataan-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .pernyataan-table td, .pernyataan-table th {
+    border: 1px solid #000;
+    padding: 4px 6px;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  .pernyataan-table .header-row th {
+    background-color: #eeece1;
+    text-align: center;
+    font-weight: bold;
+  }
+  .pernyataan-table .title-row td {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+    font-size: 8.5pt;
+  }
+
+  /* ===== TTD TABLE ===== */
+  .ttd-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .ttd-table td {
+    border: 1px solid #000;
+    padding: 4px 6px;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    word-wrap: break-word;
+  }
+  .ttd-table .ttd-header {
+    background-color: #eeece1;
+    text-align: center;
+  }
+  .ttd-spacer {
+    height: 55px;
+  }
+
+  /* ===== FOOTER TABLE ===== */
+  .footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .footer-table td {
+    padding: 3px 5px;
+    font-size: 8pt;
+    font-family: 'Calibri', Arial, sans-serif;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+
+  /* ===== TEXT HELPERS ===== */
+  p {
+    margin: 2px 0;
+    text-indent: 0 !important;
+  }
+  p.justify { text-align: justify; }
+  p.center  { text-align: center; }
+  p.bold    { font-weight: bold; }
+  .fw-bold  { font-weight: bold; }
+  .text-sm  { font-size: 8pt; }
+  .spacer   { height: 6px; }
+
+  ol, ul { margin: 2px 0 2px 0; padding-left: 18px; }
+  li { margin-bottom: 3px; font-size: 8pt; font-family: 'Calibri', Arial, sans-serif; text-align: justify; }
+
+  a { color: #0000ff; }
+
+  /* ===== RESPONSIVE ===== */
+  @media screen and (max-width: 700px) {
+    body { font-size: 9pt; padding: 6px; }
+    .doc-title { font-size: 8pt; white-space: normal; }
+    .logo-img { height: 32px; }
+    .benefits-table, .syarat-table { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header-container">
+  <table class="header-table">
+    <tr>
+      <td style="width:50%">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAqRXhpZgAASUkqAAgAAAABADEBAgAHAAAAGgAAAAAAAABQaWNhc2EAAP/bAEMAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/bAEMBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/AABEIACcArwMBIgACEQEDEQH/xAAfAAACAQQDAQEAAAAAAAAAAAAACgkBBQYIBAcLAgP/xAA1EAABBAIBAwIEBAQGAwAAAAAEAgMFBgEHCAAJERIhExQxUQoVFvAiQWGRFyM0cYHRscHh/8QAHAEAAQQDAQAAAAAAAAAAAAAABAACAwUBBggH/8QAKxEAAgICAQQCAgEEAwEAAAAAAQIDBAUREgAGEyEHFCIxQQgVMlEWQlJh/9oADAMBAAIRAxEAPwB/jOcY989cd8oYVp18l9odhhCnHnn3EtNNNox5UtxxzKUIQnHupSs4xjHvnPWkvcN5P7P4gcXNh731Loyb5AWiniNk5qEQe2CLDxikuqkbjYcNIImC67XGm8FygdfANlHGlYUrAADZsoEhdsbkb3HO6ZBWLbHJfkUjjrwoiJdYNosh5MzR9GCuo8FLqtOokA45Y953tthnC42soXY5BslTWTpKCDfWWnZcF21Pmo5LbW61KhDIIZZ5GMsxlbiVhhqRbmllcMOCkJzJ0pY71QZfuCDFyJWWvPatyp5EiRTHEse9GSWxIBHGi+y7Dl4wCX4jW/QAtPPThJSJp6uW7ltx0rs8NlOCImW3DQwz2MqUpOMPDuzmHGs5UhafC8JzhSFJz4ynOMbD0++0fYUKNZKFcKxdq8Z/pZypzsZYYgjPpwrwzIxJJYi1YxnGVJS7lSfPhWMZ9uvLKoMNQNg7LjNC9vLixP8AIfYMgUkaO2rvaAEt9qnVsrZbfsIGmxCyNT64qrTmXHXE3wvYaRRFIJk5gJfxB2ma+LXD/bHbKiYPkjzq7iFs1jOejMvHcPeOf6aGp08tTDSs16QqSY0akTZbmVfIn/pygxkVEP8Akoa6qT4OSd3J29hu3KD3L2dSgY4vN48kkcUsqgAhvBA0r1Y3J0r2WUj/ABKB/wAepezJe6O+c5S7f7c7YvZ/J5GylSpUwUM96aWw7ACKFVTlZkHsssCMoALeTgC3TbczZa9XGRSLBNxUIOdIgQ4b8scNHslysqSgOMjRnCnGkPHyBbrYoQjalPkkOIZZQtxSU5vWFYV74z5848/8dIz8k+UvKHulbWSBUIsuqaooZb03BQC5tMLSqAAznOP17sm4v5EiRpZoZOVZlC3UNxqFOgwDC3nX1nzm8Fu6BqE2003iDsHbMjsm9QkBE12M5BSrDMZUtn3f45DRdZjHCsolHUhM5j42vWmbSyVdymi33hgi3gvzTw/E9/4vKZCatwNSg00dbGZK1IkMeTsklZIoIpOEg0w0j/kp2qy+GWSKOTuL5I/ov+Q/j3sfF577cHcveNXG2878hdh9vVJ8nd+PcCEhko38vk6ZsUGkdGkFuozQTqUlmxqZOhSyF2rN1LTETAx5kvOScfDRMcM6ZISkoYOBHACMJyt4o00pxoYUdlGMrdefdbbbRjKlqxjGc9dAUHmNxO2rbV0LWnJTR19uyFPo/SdS2hTp+wrWM5lohDMTGy5Br6mXMZQ6lllzKM4/ixjHv0o3+KS5W7al936Q4I0yfPruu56jV/ZN2AANeCYvdjuNynKvVY2xZZ9CioKsYq7siwA6tYb0lLZNKYcfjY9wfOt/fhXjKvr3V1j4Ub/lQuQ1TkIQy3Se17ATV6tInCDJKes9GlqPVZWx02Xip4dgiICcxKpUGtOVSo5oSXjPb63bmMjx2OuZnMNjpMus7UESsZ4Y44SFEtuQOpRXZh6VdqpDFjtuPB9jOX2u3K+MxouxY0xLccziORpJBy8dePRLMq7/AGG5EEADQDOc4WnP0z5x9/fx/fx48f1+nVc5xj65x/7/ALdQIbw519wDiTQON3Hat8OrRzA5ZHawrS9w7YgyZ+L46xE4hwmCSaRsMmtxTcpPTLkS7Nzw0hiogQg5o5bx7uTECs628Qe/TuvYfMuQ4Q8ruMdO1bs5QFqYjZjXWwP1VFR1trdROuTEFPMIdlgCQZOMAeZxKwtjIWCapgZ+PXhx90Spj7cyk9ae3XSvPBAkszGK3WMrVoXKNZWAyifw+uQZo1JBB4gEEnvnsfFPFXmM8MkzxxDyV5xGJ5FDLXM4jMXlG9Mqu2iCPfTQPqT98dYvbbzS6DFZnr1bqzS4PBDImZm2TsZXYrBRGVYYGzIS5QYmH38oVhpnL3xHPSr0Jz4z4Tt1v+JL5x8hdc7SkNA9vqBuFs1JFYvV+skNabVZqVTNbsCGOlSE1CtR0VLrlnHY8xwNA04rDwAcgQ3HuZj389XLlF3edJc+ez5dNr7S43wNwtdE3trjX+09JG36yQEZCzUyPLy9S2BU7bX2x55MXLBx8kwCMcPhxk0Keiy8FjijSBp69nZqOaBLdbhG92vTn+tPUsTwNZYCEvCLChBJsCNpmiRyR+QGtiHunFyRStWm5SLWmsw+eKxDDMsA3IFkMP5FDsOsauy6I0T+3DIC01m1QwViq9hhLHX5JtT0dOwMoFLw0g0lxbSnQpOPfICKbS62tvK2H3E4cQtGc+pKsYvSXEKx6kqxnGfGcZx74z5+33684ruH8j96yHbT4FUnXWjiuPvD6TCesdMstZ2pYJ5yxXZJt2amtfyqDDB5iSBreULngpCUG9OSTlNNKzlhCumOOOPcC5f6F7V+jb9a+Cmxdn7deBpWstFa61gVLWtm+ayi9Y086vbp2FZIiOsz9OjZrD0ih4F4F49+QYFDbZYQQSaJm72lbrVKtqKeCZreQs0Y67S1o5U8EpjDSN9lovISCZ41Yit68j+wDir3LXnsTwSQyxLXpwW3mWOeRG8qK7Io8Kvoch4WYAz/AKRf2Qx/5x48+fb+/wD46w1vY2vnrc/QGbzUHr2MN86TSmrJDuW0cP4bb3zb9bQZmYaF+C6078wsNLXw3G3PX6VpzlUW3/iH+XnFrdGsqJzn4Q0XWdU2KiLmSG6RtJuYvdZph8smLLnCIxBk5HuyURn4z7ldmnKuWbkdxlJIXq+MjWTtoTRVi/ElctJUyRKlckyXJFIxhhDpLio8aWihoxlC3lKXgYaPaGHEZ84bYGabZbQltCU4ynaN5K1+1deOGOti5sjVeCSC3Dc8MiRtGs0MzIoVn07DkQdAKTvpN3NUksVK9RWlknvxUp0mSWtLWEsZkWRopIwxLKrcR6B/kge+nTx9na2LtpVAF2BSib2E1l4ykj2iEetwjKWWyFOk1ts5Uyw3gd5p/K3Qkpwy627nPoWlWcpk5WLhY4+YmJEKJiYsMmQk5SSKZBjo4ANlZBZxxpS2hhBBWG3HiCSHW2WGkLcdWlCcqwh5tY86M/FXVZ2PLIDcI3/q+OecHeW0p4KS03CAnBu5TnHrGMDfeHIaz5S604pCseM9OZ81JqFrXDzlNZLHU4+916v8d9yzE7SJU46NjLdERuvbCXJVs+QjVIkAA5wNh6NINAWgwVohb4qkvtozgHKYQY2TDIJ2n/u+Pp3QBGqtEbTAGJdycX4b9MzR7Ps8QNkvH5c3kyrmERf265Zqgl2ZZBAvISNpOS79hlUOR/15fo90VLZut79GnzNFv9LusRFPqGlJWpWiEscbGkpYSUoc86HNMFDfSKtJKmiHW3MMKS9lOG1YVni1HbeqtgHHRdD2XQLtJRbeHpOOqVwr1jOjmcu/Bw6cJDyJj4jeXv8AKwshttOXP4PPq9uvPuqPJi1j9mHl23xA4qC6Y1Pdt7j0vkLaIPcdrsx9JhDa/qtMZJiu2V4aVNHvapFev5SGCw+GmJeJeKTlBT6V9ydm7kZT+2nwx3Tzr2dxwkkxNrjEa01ZsaK2C46dyI2CzdZ1ONfJqxTpMfQ46mJh3X5ey/lb5DsYCYWwNKFrFAfu7HZUsVW9MliR7EORjxtKkVqeexM6xkibjdZYnAcsI4/M3iAmbUJZ1qIe60ksVInhRYZaL3rVofa8MMas43Hyqguuk/J5PGA5MY3JxRn7vOPvj++Oq9KEA/iFOamogNPb05Z8HqfVuJ285gFmrWqg3tZl4h4A1CS8Sa442Rk8HnflKly0dFz0VS8z4or3yJQ2MKdbbQplsgb5U61datINS1at0DFWWAlGM4UxIQ82CxIxpjWcZzj4ZIZLLyff29fjrWclhshifC1uOMRzmRY5YZ4rETSQkCaLyQu6CWIkB4yeQO/4G+r/AB+Vp5LyCs7l4gjSRyxSQyBJQTFIElVWMcgBKOAVI/nfWQusNPNuNutocbcSpC21owtC0KT6VIWjOMpUhWM5wpOcZxnGc4z7eelUu8j2Ld1cu9jaRtXFa8QkDrqDejdeyOiZdYNT1hpWvSZyi5zY+t6/BCiRTTJTylnXODDjF2CZMbDICLNwhAIjWfVMpxn3zj69MxWVu4a2l2hIqSorKA6LJGeSlCSjAjYVjxZeLKd6OmI6fkcbVylZqttWMTFSSjmNwVYMAGX+CQNqQVJ0SNqCIiuOfalpnC3i3I6Y4g397Ue5rCKCRdeSBNPr9mul7mxB3UKRNDyzb6o+tNOvPZhICGNGbgsKUQw+TIEyRZ8N26O1Vy6F2HMWi1682HzFsZ7yX1XyZ2zVKxCSq284+GiSizp+Ruz4SceW0BNTlfUwxjDQ+WE4TnLgvpT7+2Pfqvpx48eP+/79ah3N2/V7snNvL2Lktoty83n8seyRs/TtLPRLaHEMazOqgKrhQB10F8Kf1A96/A8Nun2XS7bNC+pW3DbxX1MjIhVF8K9z4CfDd2RVfwDGlFnFpNIXkauXd2ZRSv8Aa17jO/I2M15e2dc8X9Fx8ggzFAg5OPRCJex8NtUs9VaSVMGXWxIYRjDcxfbK4fnx6MSrSFK6mU4edo/jLxUMi7gRHvba2rGKaKDvN2EGWNCnt5QrBdWrCMvxsMQ24nCxj3nJGWFz/p5JvyrzKt6U/b+n7/7+vVcYxjPnGPH7+306r8X2RgMZYW54JchdjCCK3kpTakhEehGteIqlauIwAI/DChQfihVQB1s/yD/Vt8yd/YWx2smVx3ZPaNwytkO2uwqDdv08tLYAFqbNXzZuZ3MS3CN3TkctYS4fysxyOS3Sun4hXtLbg5jO625T8XolVp3Rquu5pNtoI5gwMxbaULLl2Guy1UINIGDcsFTl5Say/FOuodmI+UbyC5k2LaDkIstl7f8AxD3cMG0/x2Y0rtzj0RUJIVVg2hU4/YHH3FjNaBYhlWHZV8dmgWUxoI7hkoVCVxDQ5xhDpI0EeWLGjjvsZSnP1xjP7/f7x1T0J+39P5/T7detUO7LFOnVqTY/H5A44zHGz3IneSn5vbqArqkqBvahx69ezxXXINztuG1asWIrtykt3x/ehrOqpZ8RHEkspaNmAAYrsev17O0HO4xwo7iNF5Kccte7UrHLPnNw611StVR8hH64uF6mv189HxwitwIlzEkTpkHcbFayZtYsxZh35BdaehY0OUSGAhMdY+NfAfk/qXui6d5E54GbJ468arCuzylWrYb52yhNa1yS1bYqtFN7AsIZcvJQs4ZIkCyFizZEgKAKk3lupYFYUpp/7KE5+uP3+/8Aj3z18LYbcbU0ptK21pUlaV49SFpVj0qStOcZwrCsZzjOM48Kx5xnzjzjJCd7XEp/V+jTBelPQnkRp41mSz/nOa8ci11sljsy+Ni3tfSEr0O/adV7BsG1YYi1DaiR1hcxvBoJH5mQzGHiNeMSKB/kNuAevM37OfJLm1x7ovNZHD/jKRyOxfaTr+o3RcSydJT+sZuVY2UBQrePW4xgs6yRnki1Yko35TAmCRIzBp4TTvpK3B1b2Y+a1e7Q3JE4rUlixu/cu5dJXSE0c5htq8May1MPbGFSz8QsjHwrFLn7BkysVojDMuxEwSHFoUWegBpyTiT26OKHCG27euPG7XpFBkd3lwxV7DRZJ2XhXVV86wyMSPCxcsaWNAhhk2iY+EHF4YYSw+0OlCWBR0N7zYQj04x49vGPv/L6fz6OyXfRe9PYxVCCBLFrG25pZ1k+xabHJEUinVZnjVUlVgGhKF4+JOnLHoWj2iBUihyNuaVoa9ytFHEY/DAttmDyRN4w7MyEHUvLi5OvxGikXzN7e/MLYvY67fOtqhou7zG1dCWmzy2ytWMRyv19DRk89cBRymq7lWC5DLDj4CyQwcPm4YkGCWxnGEkONdRctozvC8g+2dxQpEJxz3Zqau6Sm57SWzNXa/EukPdL9WqRRdUD6r2FaqsnI0/K14wnN1CcGCZNggpqMSWSwl3IbjT6C0JwnPhP2+n++P6/vHUd07yl2ZBbm2NXW6zTT6hEzUpUKGxMXJqmgGk0Kl1q77LtNrtR9fksR7QOLbD16BiooaRUUaxLOGoFGjipBqkPfb48UzaxtKwYstbvV3kjsS+OW95HmjZVcqELNqORkZ1cRcfz0TteH+Nbnc0uSixNySN6+Fg+1G9upUE0FOWtXQxyWAgaVVYzSRCSOP60dmR2WOMkIo8mu2lym2bQ9M7F45dsDeOlqPWKyNVb0uwT0hsHcez9kuZDJsd9sNYNfYskRV3H0pErbQVZDjmk/mRK1YyU2yNOJ2vuEPKin96Xkryeu+mLjR9InMbcIgrtbY1cGHZP1vLRn6fZgxTlNyBrxAzJJj/pESgNhhWC1MvOMtOsM0rl+5d9abf29/hvLU/W2q6OVZXLJZZQXMhLy4Ou4a/ysMLWghnH0tV5Es5Cyxz56EOy4LokeyVnJKguige4daa9Xwa5aNQqse2wgEPSgVPsrspUZhqO19ULtMqAsERV5NuOs3xrjEQ/6YJEVFRx5jLh1sbi/VIYhv8AyY1ik9V4oI4bNS3Ujl43rEhgt2Ii23leR2lZ4SsLseDqNxLxCgXuM+Ce5ZLs8lWr5beLu0pbdUZDCRGOVKAs82CTpAkVaC1A+QVXEtKSeCO2EkY6Wi7mPD7uR617x1p5t8ZOM1t2kHH2igbG1hZYev5uFTMMg6JCV8oOdCjpAUwZ8OTDOYIjinAX3EIZJYW4K8065vtofkD3tuZcXyO46crOK4OrqBszidyCrFasL2tpajDk7JnaFIQdKhiLBJ2KUEFHkpGTyy78QbGMIxl3LqENK8zDHc4rvAuSFmsNArTFBipzkHKHoBs5pF6boOhogIWXabrzsKwCu5k2wpDGAcy6Y7Mc4lWSG204PV2vqnllbNo2moVBnS0jDyE45bT5+RMsrzENX6pWE0xLNgEzK1aHmJxUvIW1+BFj3IaIymbrU4hsp+MbGlH4G+QKtyrUpS4zHzWqVatSqXJK9z7kccXh+u6APwHLYIbiF9yH0QdPn+Fe6sSLmVZ5YsfK16/bSPMYb6e4Da+9C5awjNNX+rKskKF5AxgRQ8k0IdTzjBwI5kUnsedxTj9aOO2zIfc1931raYpOuyYJSrHaomGktT5k5KDFZccTIAiphpRaymHFNZQC+tCloR6s7BSHaB5WbU7B+leOWammu8ldXbWue947VU6eDGny0fYLHcsYqRRz5GIyNs79bsLEsGOcWyOg1tMUY8KS8pbE/wAVzNnaPadzTOx4mCa17XxNvl60EipwZiUlA9GPQNdmxzcyUeKsux3q8z/5HXwwSSR2MDjMJHcIw+QVywuchNeZ2BMbLqtfhK/Cu7wlKvmMt7Tss/CaSZrMRIxEsAfGCJzZ7Bcph2Mh2AX1/EbJCZyItxGHzHSfI8rTNIq1q8n97TNMTDNxSaKstJVfkW1VlQbVm/NvIGEikk9ZT4N7hWGMR0pLsLYlMbCYLlRjZ+w33Zq1cfg9jI0nMiXK8SnwtBJ6ZWUunBpfg7e7kNq3SOexPdH9sxrIkBszcG2t47wpGtZUoRTIBtvwgUyEhK+w4vLkmcLGS86l1HragQScZZbU/hprX0bqfVOudZw4IsZFUGlVupARwJkpIAgDQUUJHtBgnTZJkwWGMlj4IpEoWQe6OhtRTy3srVnSCe57zsSM0SLoqXKTLTt7hap8S0urVY86vc+UvJeGISpzpMWOPMkA1+BckR22pSUVJPSDsJDRzErIyLwpzknFx0i6ITHuHgBmuAGJSksJZLCHlCE4QpSEkDZXll5KFKThxCvTnKcYzkbJd1/8kdI0TxpWZ5mjE+QmBks6byA3ZZEVSPaJCFUIyn8l4EAy/HuW7IignykCRDJmWGvIsuIdnFBhFOhTGuzhopi0MzTgEWY5oTxmilRbp0dHR1WdD9HR0dHS6XR0dHR0ul0dHR0dLpdHR0dHS6XR0dHR0ul18q8enPn3x/8Af+esNmNf0ewMYFnqdVpsZMsuaQPLV+JkWUzS/HrlktGBvNpkl4xjCjsY+aVjGMKdz0dHTWVWGmVWBBGmAYe9E+mBH8D9j+Onx2J68iSV5pYJN7DwyPE4OtbDxsrAgEgHf6J6uS6xXVxsjCuQMOuIl8l5lotUYEqOk/nU+g38wCUzkY35tGPSV80278wn+F3CseMdY1jVOscRwEPjXVG/KYqRXMRcZipwGI+MllqwtyTjw/y/5YOQWrHqWYO22QrPvlzOffo6OoiqMwBjQ/gBsr70WQld/wCtnkR/JAJ9jqdLlyHYiuWowXEpEdiVAZTH4/IQjqC/BmTmQW4MV3xJHVzcoNJeccddqFZdefLkj3nXIGJW48fMhIjpc11ahPWsyVjm0AyJKs5eNDQgUpbrCUt4/eBpFRqrLI1Zq1errIwyxBmYKHjYlocN0hRbojDYAw6GhnClrJWw3hDaiFKeynLisqydHTlRAQeCb/XLiA2ioOtgb/gA/wCwBvfTHu3HjeJ7dl4iFLRNPK0bcTpQyFypC+WTQ165t/6blwJTW+v5vISpqj1GWVHPSJUdmTrcMdkAmYe+YliQvmgnvlX5R/Hx5F1n0LNe/wAwpTq/4uvwkNXa2ln/AJqV1/SpInJx0pl+Qq0Ea9mSk2BxZGQ+KQC4v508UQUY4r1ZeLYGYZfW42y2lJ0dIwxNsmOM7YE/gp2UOl3sH9a3/wDDvWh66liyOQTxhL1xOAcJwtTrwEzFpQmn/ESMzM4GgxJLbJPXNk9f0aaFBAmKbVpUOMkXJaOEka/EnDASrrzj7kkEwUI60Ke4+6684YwlshbzrjqnMrXlXWYtpwj+BOPGE48Yxj2x4xn7fT/bx4xjH8ujo6ygUFiFVSSoJUAEgICAT+yF2Qv+hoD10PLYnlWNJZpZUTk0aSSO6xtMyNKUVmIUyMeTkDbsAWJI6//Z"
+             class="logo-img" alt="Logo PT Capital Life Indonesia"/>
+      </td>
+      <td class="doc-title">
+        RINGKASAN INFORMASI PRODUK DAN/ATAU LAYANAN
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- ===== MAIN CONTENT TABLE ===== -->
+<table class="main-table">
+
+  <!-- TITLE ROW -->
+  <tr>
+    <td class="section-header">
+      <span>RINGKASAN INFORMASI PRODUK DAN/ATAU LAYANAN VERSI PERSONAL</span>
+    </td>
+  </tr>
+
+  <!-- PRODUK INFO -->
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <table class="inner-table">
+        <tr>
+          <td style="width:18%" class="fw-bold">Nama penerbit</td>
+          <td style="width:2%">:</td>
+          <td style="width:22%">PT Capital Life Indonesia</td>
+          <td style="width:18%" class="fw-bold">Jenis produk</td>
+          <td style="width:2%">:</td>
+          <td style="width:38%">Dwiguna Kombinasi</td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Nama produk</td>
+          <td>:</td>
+          <td>Capital Proteksi Plus</td>
+          <td class="fw-bold">Deskripsi produk</td>
+          <td>:</td>
+          <td rowspan="3" style="vertical-align:top; padding-top:4px;">
+            Produk asuransi jiwa yang memberikan perlindungan asuransi atas risiko meninggal dunia karena kecelakaan yang memberikan manfaat Uang Pertanggungan dan manfaat investasi.
+          </td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Mata uang</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">Rupiah</span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td><td></td><td></td><td></td><td></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- FITUR UTAMA -->
+  <tr><td class="section-subheader"><span>FITUR UTAMA</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <table class="inner-table">
+        <tr>
+          <td style="width:30%">Nama Tertanggung</td>
+          <td style="width:3%">:</td>
+          <td class="data-cell"><span class="highlight-yellow">Tn. Prospek</span></td>
+        </tr>
+        <tr><td colspan="3" class="spacer"></td></tr>
+        <tr>
+          <td>Usia masuk Tertanggung</td>
+          <td>:</td>
+          <td class="data-cell"><span class="highlight-yellow">40 tahun</span></td>
+        </tr>
+        <tr><td colspan="3" class="spacer"></td></tr>
+        <tr>
+          <td style="vertical-align:top; padding-top:3px;">Uang Pertanggungan</td>
+          <td style="vertical-align:top; padding-top:3px;">:</td>
+          <td class="data-cell">
+            <span class="highlight-yellow">Rp. 150.000.000,-</span><br/>
+            <span style="font-size:7.5pt;">(dalam hal Tertanggung dilindungi lebih dari satu Polis Capital Proteksi Plus, maka Uang Pertanggungan yang dapat dibayarkan oleh Penanggung maksimum sebesar Rp. 2.000.000.000,- (dua miliar rupiah)).</span>
+          </td>
+        </tr>
+        <tr><td colspan="3" class="spacer"></td></tr>
+        <tr>
+          <td>Premi</td>
+          <td>:</td>
+          <td class="data-cell"><span class="highlight-yellow">Rp. 100.000.000,-</span></td>
+        </tr>
+        <tr><td colspan="3" class="spacer"></td></tr>
+        <tr>
+          <td>Masa pertanggungan</td>
+          <td>:</td>
+          <td class="data-cell">1 tahun</td>
+        </tr>
+        <tr><td colspan="3" class="spacer"></td></tr>
+        <tr>
+          <td>Masa pembayaran premi</td>
+          <td>:</td>
+          <td class="data-cell">Sekaligus</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- MANFAAT & RISIKO & BIAYA -->
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <table class="benefits-table">
+        <tr>
+          <td style="width:50%" class="col-header">MANFAAT</td>
+          <td style="width:5%; border:1px solid #000;"></td>
+          <td style="width:45%" class="col-header">RISIKO</td>
+        </tr>
+        <tr>
+          <td rowspan="3" style="vertical-align:top;">
+            <p class="justify text-sm">Produk ini memberikan Manfaat Asuransi yang dapat dijelaskan sebagai berikut :</p>
+            <ol style="font-size:8pt;">
+              <li>Apabila Tertanggung meninggal dunia dalam masa pertanggungan yang diakibatkan karena Kecelakaan dan pertanggungan masih berlaku, maka Penanggung akan membayarkan Manfaat Asuransi sebesar 100% (seratus persen) Uang Pertanggungan ditambah Saldo Investasi yang terbentuk dan selanjutnya pertanggungan berakhir.</li>
+              <li>Apabila Tertanggung meninggal dunia dalam masa pertanggungan yang diakibatkan karena Penyakit (bukan Karena Kecelakaan) dan pertanggungan masih berlaku, maka Penanggung akan membayarkan Manfaat Asuransi sebesar Saldo Investasi yang terbentuk dan selanjutnya pertanggungan berakhir.</li>
+              <li>Apabila Tertanggung masih hidup hingga akhir masa pertanggungan, maka Penanggung akan membayarkan Manfaat Asuransi berupa Saldo Investasi yang terbentuk dan selanjutnya pertanggungan berakhir.</li>
+              <li>Apabila Tertanggung masih hidup selama masa pertanggungan, maka Penanggung akan membayarkan Manfaat Asuransi berupa manfaat investasi sesuai dengan pilihan periode pembayaran garansi investasi yang dipilih oleh Pemegang Polis.</li>
+              <li>Meninggal dunianya Tertanggung sebagaimana dimaksud pada poin 1 bukan sebagai akibat hal-hal yang tidak dijamin atau dikecualikan dalam Polis.</li>
+            </ol>
+          </td>
+          <td style="width:5%; border:1px solid #000;"></td>
+          <td style="vertical-align:top;">
+            <p class="fw-bold text-sm">1) Risiko penolakan pengajuan pertanggungan</p>
+            <p class="justify text-sm">Risiko dimana pengajuan pertanggungan tidak disetujui oleh Penanggung dikarenakan syarat-syarat pertanggungan tidak terpenuhi.</p>
+            <p class="fw-bold text-sm" style="margin-top:6px;">2) Risiko gagal klaim</p>
+            <p class="justify text-sm">Risiko dimana Manfaat Asuransi berupa Uang Pertanggungan tidak dapat dibayarkan apabila klaim yang diajukan tidak memenuhi ketentuan Polis, termasuk namun tidak terbatas pada kondisi yang termasuk dalam pengecualian Polis dan/atau kejadian yang terjadi dalam masa tunggu.</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:5%; border:1px solid #000;"></td>
+          <td class="col-header">BIAYA</td>
+        </tr>
+        <tr>
+          <td style="width:5%; border:1px solid #000;"></td>
+          <td style="vertical-align:top;">
+            <p class="fw-bold text-sm">1) Biaya Dasar</p>
+            <p class="justify text-sm" style="margin-bottom:4px;">Premi yang dibayar oleh Pemegang Polis sudah termasuk biaya-biaya yang dibebankan ke Pemegang Polis, seperti biaya pertanggungan, biaya tenaga pemasaran, biaya administrasi dan pemeliharaan Polis (termasuk biaya pelayanan terhadap nasabah), sehingga tidak ada biaya-biaya dasar lainnya yang dikenakan kepada Pemegang Polis.</p>
+            <p class="fw-bold text-sm">2) Biaya Penarikan Saldo Investasi</p>
+            <p class="justify text-sm" style="margin-bottom:4px;">Biaya yang dikenakan kepada Pemegang Polis dalam hal Pemegang Polis melakukan penarikan seluruh Saldo Investasinya sebelum Tanggal Jatuh Tempo Masa Garansi Investasi sebesar <span class="highlight-yellow">5% (lima persen)</span> dari Premi yang dibayarkan.</p>
+            <p class="fw-bold text-sm">3) Biaya Pembatalan Polis dalam Masa Pemahaman Polis</p>
+            <p class="justify text-sm">Biaya yang dikenakan kepada Pemegang Polis dalam hal Pemegang Polis melakukan pembatalan Polis dalam Masa Pemahaman Polis sebesar <span class="highlight-yellow">Rp. 100.000,- (seratus ribu rupiah).</span></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- PENGECUALIAN -->
+  <tr><td class="section-subheader"><span>PENGECUALIAN</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <p class="justify text-sm fw-bold">Manfaat Asuransi berupa Uang Pertanggungan tidak dapat dibayarkan apabila Tertanggung meninggal dunia sebagai akibat dari hal-hal tersebut dibawah ini :</p>
+      <ol style="font-size:8pt;">
+        <li class="fw-bold">Karena suatu Penyakit; atau</li>
+        <li class="fw-bold">Tertanggung menggunakan obat-obatan dan/atau zat-zat terlarang, meminum alkohol, atau keracunan yang disebabkan narkotika, termasuk obat-obatan dalam arti yang seluas-luasnya terkecuali zat-zat dan/atau obat-obatan dimaksud dipergunakan atas Petunjuk Dokter dan tidak terkait dengan upaya perawatan kecanduan obat; atau</li>
+        <li class="fw-bold">Perbuatan bunuh diri atau Pelaksanaan Hukuman mati berdasarkan Keputusan Pengadilan yang telah memiliki kekuatan hukum yang tetap, terkecuali apabila peristiwa tersebut terjadi setelah 2 (dua) tahun sejak tanggal penerbitan Polis atau Perubahan atau Pemulihan Pertanggungan (mana yang terjadi lebih akhir); atau</li>
+        <li class="fw-bold">Terjangkit dan/atau terinfeksi virus Acquired Immune Deficiency Syndrome (AIDS) dan/atau terinfeksi Human Immundeficiency Virus (HIV), terkecuali apabila peristiwa tersebut terjadi setelah 2 (dua) tahun sejak tanggal penerbitan Polis atau Perubahan atau Pemulihan Pertanggungan (mana yang terjadi lebih akhir); atau</li>
+        <li class="fw-bold">Kehamilan yang sudah ada pada sebelum penutupan polis dan kehamilan tersebut tidak diinformasikan sebelumnya; atau</li>
+        <li class="fw-bold">Kejadian kecelakaan penerbangan, terkecuali Tertanggung tercatat sebagai penumpang pesawat terbang yang memiliki ijin resmi sebagai pesawat komersial pengangkut penumpang yang dikeluarkan oleh Pejabat yang berwenang untuk itu; atau</li>
+        <li class="fw-bold">Berpartisipasi dalam kegiatan olah raga yang berbahaya seperti olah raga terjun payung, parasailing, hiking, panjat tebing, selancar, olah raga bermotor, serta olah raga berbahaya lainnya; atau</li>
+        <li class="fw-bold">Menggunakan transportasi yang membawa bahan peledak atau bahan berbahaya lainnya;</li>
+        <li class="fw-bold">Terlibat dan/atau turut terlibat kedalam peristiwa tindak Pidana; atau</li>
+        <li class="fw-bold">Terlibat dalam perkelahian, kecuali jika sebagai orang yang bertindak mempertahankan diri; atau</li>
+        <li class="fw-bold">Tindak Pidana asuransi dalam bentuk Pembunuhan yang dilakukan oleh orang-orang yang memiliki dan/atau turut memiliki kepentingan atas Klaim Pembayaran manfaat asuransi.</li>
+      </ol>
+    </td>
+  </tr>
+
+  <!-- PERSYARATAN DAN TATA CARA -->
+  <tr><td class="section-subheader"><span>PERSYARATAN DAN TATA CARA</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <table class="syarat-table">
+        <tr>
+          <td style="width:48%" class="header-cell">Anda harus melengkapi persyaratan berikut ini, yaitu :</td>
+          <td style="width:4%; border:1px solid #000;"></td>
+          <td style="width:48%" class="header-cell">Anda dapat menyampaikan pertanyaan dan pengaduan melalui:</td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">
+            <ol style="font-size:8pt; margin-top:4px;">
+              <li>Usia calon pemegang polis minimal 18 tahun</li>
+              <li>Usia calon tertanggung minimal 18 tahun dan maksimal 69 tahun</li>
+              <li>Mengisi dan menandatangani surat permohonan asuransi</li>
+              <li>Menyampaikan fotokopi KTP/Paspor/SIM untuk WNI dan KITAS/KITAP untuk WNA, dan NPWP</li>
+              <li>Melakukan pemeriksaan kesehatan (apabila diperlukan)</li>
+            </ol>
+          </td>
+          <td style="border:1px solid #000;"></td>
+          <td style="vertical-align:top; padding:5px 6px;">
+            <p class="text-sm">Customer care : <a href="mailto:care@capitallife.co.id">care@capitallife.co.id</a></p>
+            <p class="text-sm">Telepon &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : (021) 22773897</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- SIMULASI -->
+  <tr><td class="section-subheader"><span>SIMULASI</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <p class="fw-bold text-sm" style="margin-bottom:4px;">Data Polis</p>
+      <table class="inner-table" style="margin-bottom:8px;">
+        <tr>
+          <td style="width:20%" class="fw-bold">Nama Pemegang Polis</td>
+          <td style="width:2%">:</td>
+          <td style="width:22%"><span class="highlight-yellow">Tn. Prospek</span></td>
+          <td style="width:20%" class="fw-bold">Masa Pembayaran Premi</td>
+          <td style="width:2%">:</td>
+          <td>Sekaligus</td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Nama Tertanggung</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">Tn. Prospek</span></td>
+          <td class="fw-bold">Metode Pembayaran Premi</td>
+          <td>:</td>
+          <td>Sekaligus</td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Tanggal Lahir Tertanggung</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">1 September 1986</span></td>
+          <td class="fw-bold">Tanggal Mulai Pertanggungan</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">01 September 2026</span></td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Usia Tertanggung</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">40 tahun</span></td>
+          <td class="fw-bold">Tanggal Berakhir Pertanggungan</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">31 Agustus 2027</span></td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Mata Uang</td>
+          <td></td>
+          <td><span class="highlight-yellow">Rupiah</span></td>
+          <td class="fw-bold">Masa Garansi Investasi</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">12 bulan</span></td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Premi</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">Rp. 100.000.000,-</span></td>
+          <td class="fw-bold">Tingkat Garansi Investasi</td>
+          <td>:</td>
+          <td><span class="highlight-yellow">6,00% per tahun</span></td>
+        </tr>
+      </table>
+
+      <table class="bordered-table" style="margin-bottom:8px;">
+        <tr>
+          <th style="width:25%">Jenis Pertanggungan</th>
+          <th style="width:25%">Masa Pertanggungan</th>
+          <th style="width:25%">Uang Pertanggungan</th>
+          <th style="width:25%">Premi</th>
+        </tr>
+        <tr>
+          <td colspan="4" class="fw-bold">Dasar</td>
+        </tr>
+        <tr>
+          <td><span class="highlight-yellow">Capital Proteksi Plus</span></td>
+          <td><span class="highlight-yellow">1 tahun</span></td>
+          <td><span class="highlight-yellow">Rp. 150.000.000,-</span></td>
+          <td><span class="highlight-yellow">Rp. 100.000.000,-</span></td>
+        </tr>
+        <tr>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="fw-bold">Total Premi yang dibayarkan</td>
+          <td class="fw-bold"><span class="highlight-yellow">Rp. 100.000.000,-</span></td>
+        </tr>
+      </table>
+
+      <p class="fw-bold text-sm" style="margin-bottom:3px;">Ilustrasi Kasus :</p>
+      <p class="justify text-sm"><span class="highlight-blue">Tn. Prospek</span> meninggal dunia pada tanggal <span class="highlight-blue">31 Desember 2026</span> karena Kecelakaan akibat melakukan aktivitas penerbangan sebagai penumpang pesawat udara yang diselenggarakan oleh perusahaan penerbangan komersial resmi yang mempunyai jadwal penerbangan tetap dan teratur dan yang sedang menjalani rute penerbangan yang telah ditetapkan dalam jadwal penerbangannya.</p>
+      <p class="justify text-sm">Ahli waris dari <span class="highlight-blue">Mr. Prospek</span> yang ditunjuk sebagai Penerima Manfaat mengajukan Klaim kepada Penanggung pada tanggal <span class="highlight-blue">01 Januari 2027</span>.</p>
+      <p class="justify text-sm">Bagaimana pengajuan Klaimnya ..?</p>
+      <p class="fw-bold text-sm" style="margin-top:5px;">Analisa Klaim :</p>
+      <p class="justify text-sm">Penanggung akan membayarkan Manfaat Asuransi sebesar 100% Uang Pertanggungan, yakni sebesar <span class="highlight-blue">USD 150.000,-</span> ditambah Nilai Polis yang terbentuk pada tanggal pengajuan Klaim, yakni <span class="highlight-blue">01 Januari 2027</span> dan selanjutnya pertanggungan berakhir.</p>
+      <p class="text-sm">Perhitungan Nilai Polis dimaksud adalah sbb :</p>
+      <p class="text-sm">Hasil Investasi pada tanggal pengajuan Klaim sebesar : <span class="highlight-blue">USD 200,55</span>,- dihitung dari :</p>
+      <p class="text-sm highlight-blue" style="display:inline-block; padding:2px 5px;">USD 10.000,- x 6% x ( 122 / 365 )</p>
+      <p class="text-sm" style="margin-top:5px;">Sehingga Nilai Polis yang dibayarkan adalah sebesar : <span class="highlight-blue">USD 10.200,55</span>,- dihitung dari :</p>
+      <p class="text-sm highlight-blue" style="display:inline-block; padding:2px 5px;">USD 10.000,- + Rp. 200,55,-</p>
+      <p class="text-sm" style="margin-top:5px;">Dengan demikian total Manfaat Asuransi yang diterima Penerima Manfaat adalah sebesar : <span class="highlight-blue">USD 25.200,55</span>,- dihitung dari :</p>
+      <p class="text-sm highlight-blue" style="display:inline-block; padding:2px 5px;">USD 15.000,- + USD 10.250,55,-</p>
+    </td>
+  </tr>
+
+  <!-- INFORMASI TAMBAHAN -->
+  <tr><td class="section-subheader"><span>INFORMASI TAMBAHAN</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <p class="fw-bold text-sm">1) Definisi-definisi Penting :</p>
+      <ul style="font-size:8pt; list-style-type:disc; padding-left:18px;">
+        <li><strong>Penanggung</strong> adalah PT Capital Life Indonesia, suatu perusahaan penyedia jasa asuransi jiwa yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK).</li>
+        <li><strong>Pemegang Polis</strong> adalah pihak yang mengadakan kontrak asuransi dengan Penanggung.</li>
+        <li><strong>Tertanggung</strong> adalah pihak yang atas jiwanya diadakan kontrak asuransi jiwa.</li>
+        <li><strong>Surat Permohonan Asuransi (SPAJ)</strong> adalah permohonan tertulis/formulir untuk mengadakan perjanjian asuransi yang memuat keterangan atau pernyataan yang dibuat oleh Calon Pemegang Polis dan merupakan bagian yang tidak terpisahkan dari Polis.</li>
+        <li><strong>Polis</strong> adalah Dokumen perjanjian asuransi jiwa antara Penanggung dengan Pemegang Polis, termasuk tetapi tidak terbatas pada Ketentuan Umum Polis, dan atau Ketentuan Tambahan, dan atau Ketentuan Khusus, dan atau setiap Perubahan dan atau setiap lampiran, dan atau perubahan lain yang terdapat di dalamnya serta formulir-formulir dan atau dokumen lain yang terkait dalam proses permohonan asuransi yang secara keseluruhan merupakan satu kesatuan dan menjadi bagian yang tidak terpisahkan dari Polis.</li>
+        <li><strong>Uang Pertanggungan</strong> adalah sejumlah nilai uang yang menjadi hak Yang Ditunjuk apabila Tertanggung meninggal dunia.</li>
+        <li><strong>Tanggal Mulai Pertanggungan</strong> adalah tanggal mulai berlakunya pertanggungan sebagaimana tercantum dalam Ringkasan Polis.</li>
+        <li><strong>Tanggal Berakhir Pertanggungan</strong> adalah tanggal berakhirnya pertanggungan sebagaimana tercantum dalam Ringkasan Polis.</li>
+        <li><strong>Premi</strong> adalah sejumlah uang yang wajib dibayar oleh Pemegang Polis kepada Penanggung sesuai cara yang ditentukan dalam Polis sebagai dasar untuk mendapatkan perlindungan asuransi jiwa dan untuk kepentingan investasi.</li>
+        <li><strong>Penerima Manfaat</strong> adalah orang atau badan yang ditunjuk oleh Pemegang Polis sebagai pihak yang berhak atas Manfaat Asuransi apabila Tertanggung mengalami peristiwa yang dipertanggungkan dalam Polis, dengan ketentuan bahwa orang atau badan tersebut mempunyai kepentingan terhadap Tertanggung atas pertanggungan yang bersangkutan (insurable interest) dan sepanjang tidak bertentangan dengan hukum dan peraturan perundang-undangan yang berlaku di negara Republik Indonesia.</li>
+        <li><strong>Manfaat Asuransi</strong> adalah jenis manfaat pertanggungan yang akan dibayarkan oleh Penanggung kepada Penerima Manfaat, jika syarat-syarat pembayarannya sebagaimana tercantum dalam Ketentuan Polis telah dipenuhi.</li>
+        <li><strong>Hari Kalender</strong> adalah semua hari dalam 1 (satu) tahun sesuai dengan kalender tanpa terkecuali, termasuk hari Minggu dan hari libur nasional yang ditetapkan sewaktu-waktu oleh Pemerintah Republik Indonesia, dan Hari Kerja yang karena suatu keadaan tertentu ditetapkan oleh Pemerintah Republik Indonesia sebagai bukan Hari Kerja.</li>
+        <li><strong>Hari Kerja</strong> berarti hari Senin sampai Jumat dimana Penanggung menjalankan kegiatan usahanya, kecuali hari libur nasional yang ditetapkan sewaktu-waktu oleh Pemerintah Republik Indonesia atau yang karena suatu keadaan tertentu ditetapkan oleh Pemerintah Republik Indonesia sebagai bukan Hari Kerja.</li>
+        <li><strong>Masa Garansi Asuransi</strong> merupakan tenggang waktu investasi yang dijamin dan sama dengan Masa Asuransi.</li>
+        <li><strong>Masa Asuransi</strong> merupakan masa berlakunya perlindungan asuransi, yaitu sejak tanggal berlakunya atau tanggal ulang Tahun Polis, sampai dengan tanggal ulang Tahun Polis berikutnya atau tanggal Polis menjadi batal, mana yang lebih dahulu terjadi.</li>
+        <li><strong>Periode Pembayaran Investasi</strong> Waktu yang telah disepakati untuk Pembayaran hasil Investasi antara Penanggung dan Pemegang Polis.</li>
+        <li><strong>Dana Investasi</strong> merupakan premi yang telah dikurangi premi resiko dan biaya administrasi yang akan dikelola oleh Penanggung untuk keperluan investasi.</li>
+        <li><strong>Saldo Investasi</strong> merupakan sejumlah uang yang terdiri dari Dana Investasi dan hasil pengembangannya.</li>
+        <li><strong>Nilai Tunai</strong> merupakan nilai dari Polis (jika ada) pada saat tertentu yang dapat dibayarkan kepada Pemegang Polis/Penerima Manfaat, apabila Tertanggung tidak meneruskan kepesertaannya sampai masa pertanggungan berakhir.</li>
+        <li><strong>Kecelakaan</strong> merupakan peristiwa yang terjadi secara tiba-tiba, tidak terduga sebelumnya, datang dari luar, bersifat kekerasan tidak dikehendaki dan tidak ada unsur-unsur kesengajaan yang merupakan penyebab langsung dan utama dari cedera, atau cacat atau luka tubuh yang kasat mata.</li>
+      </ul>
+
+      <p class="fw-bold text-sm" style="margin-top:8px;">2) Prosedur dan tata cara pengajuan Klaim</p>
+      <ol style="font-size:8pt;">
+        <li>Pengajuan klaim atas manfaat meninggal dunia harus dilaporkan/diajukan ke Penanggung selambat-lambatnya 90 (sembilan puluh) Hari Kalender terhitung sejak tanggal meninggalnya Tertanggung.</li>
+        <li>Pengajuan klaim atas manfaat penarikan Saldo Investasi dapat dilakukan dengan menyerahkan dokumen sebagai berikut :
+          <p class="text-sm" style="margin:2px 0;">a) Formulir pengajuan Klaim dari Pemegang Polis atau Penerima Manfaat; dan</p>
+          <p class="text-sm" style="margin:2px 0;">b) Polis asli dalam hal dilakukan penarikan Saldo Investasi secara keseluruhan; dan</p>
+          <p class="text-sm" style="margin:2px 0;">c) Fotokopi kartu identitas diri Pemegang Polis atau Penerima Manfaat yang masih berlaku (KTP/Passpor/SIM).</p>
+        </li>
+        <li>Pengajuan Klaim meninggal dunia karena Kecelakaan harus disertai dengan dokumen pendukung sebagai berikut :
+          <ol type="a" style="font-size:8pt;">
+            <li>Formulir pengajuan Klaim dari Pemegang Polis atau Penerima Manfaat; dan</li>
+            <li>Polis asli atau bukti kepesertaan asuransi lainnya dari Tertanggung; dan</li>
+            <li>Fotokopi kartu identitas dari Tertanggung yang masih berlaku (KTP/SIM/Paspor); dan</li>
+            <li>Fotokopi kartu identitas diri Pemegang Polis atau Penerima Manfaat yang masih berlaku (KTP/Passpor/SIM); dan</li>
+            <li>Fotokopi Kartu Keluarga atau alat bukti sah bahwa Penerima Manfaat adalah keluarga atau yang telah ditunjuk Pemegang Polis atau Tertanggung; dan</li>
+            <li>Surat keterangan kematian asli/legalisir dari Instansi yang berwenang/Pamong Praja setempat (jika Tertanggung meninggal dunia bukan di Rumah Sakit) atau dari Dokter/Rumah Sakit (jika Tertanggung meninggal di Rumah Sakit); dan</li>
+            <li>Surat keterangan asli/legalisir dari Kepolisian disertai surat keterangan kronologis Kecelakaan; dan</li>
+            <li>Surat keterangan pemakaman/kremasi yang dilegalisir dari Instansi yang berwenang; dan</li>
+            <li>Surat keterangan dari Kedutaan Besar Republik Indonesia (KBRI) jika Tertanggung meninggal di luar negeri.</li>
+          </ol>
+        </li>
+        <li>Ketentuan dan proses pengajuan Klaim lebih rinci diatur dalam Polis.</li>
+      </ol>
+
+      <ol start="3" style="font-size:8pt;">
+        <li>Perusahaan Asuransi wajib untuk menginformasikan segala perubahan atas manfaat, biaya, risiko, syarat, dan ketentuan Produk dan Layanan ini melalui surat atau melalui cara-cara lainnya sesuai dengan syarat dan ketentuan yang berlaku. Pemberitahuan tersebut akan diinformasikan 30 (tiga puluh) hari sebelum efektif berlakunya perubahan.</li>
+        <li>Anda akan menerima penawaran produk lain dari Pihak Ketiga apabila menyetujui untuk membagikan data pribadi.</li>
+        <li>Informasi lain mengenai biaya, manfaat, dan risiko dapat diakses melalui website : <a href="http://www.capitallife.co.id">www.capitallife.co.id</a></li>
+      </ol>
+    </td>
+  </tr>
+
+  <!-- DISCLAIMER -->
+  <tr><td class="section-subheader"><span>Penafian/Disclaimer (penting untuk dibaca):</span></td></tr>
+  <tr>
+    <td style="border-bottom:1px solid #000; padding:6px 8px;">
+      <ol style="font-size:8pt;">
+        <li>Anda telah membaca, menerima penjelasan, dan memahami produk asuransi ini sesuai dengan Ringkasan Informasi Produk dan/atau Layanan.</li>
+        <li>Ringkasan Informasi Produk dan/atau Layanan ini bukan merupakan bagian dari aplikasi pengajuan asuransi dan polis.</li>
+        <li>Anda wajib untuk tetap membaca, memahami, dan menandatangani aplikasi pengajuan asuransi dan polis.</li>
+        <li>Informasi yang tercakup dalam Ringkasan Informasi Produk dan/atau Layanan ini berlaku sejak tanggal cetak dokumen sampai dengan 60 hari kalender sejak tanggal penerbitan.</li>
+        <li>Anda harus membaca dengan teliti Ringkasan Informasi Produk dan/atau Layanan ini sebelum menyetujui pembelian produk dan berhak bertanya kepada pegawai Perusahaan Asuransi atas semua hal terkait Ringkasan Informasi Produk dan/atau Layanan ini.</li>
+      </ol>
+    </td>
+  </tr>
+
+  <!-- PERNYATAAN PEMEGANG POLIS -->
+  <tr>
+    <td style="padding:6px 8px;">
+      <table class="pernyataan-table">
+        <tr>
+          <td colspan="4" class="title-row" style="text-align:center; background-color:#f2f2f2; font-weight:bold;">
+            Pernyataan Pemegang Polis terkait Pemahaman Produk
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" style="padding:6px 8px;">
+            <span class="fw-bold text-sm">Bahwa saya selaku Pemegang Polis dengan ini menyatakan bahwa :</span>
+          </td>
+        </tr>
+        <tr>
+          <th style="width:6%">No</th>
+          <th style="width:66%">Pemegang Polis</th>
+          <th style="width:14%">Ya</th>
+          <th style="width:14%">Tidak</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td class="justify">Telah menerima Ringkasan Informasi Produk dan Layanan dan mendapatkan penjelasan dari Tenaga Pemasar, dan membaca serta memahami informasi penting yang tercantum dalam dokumen tersebut termasuk fitur Produk Asuransi, manfaat asuransi, serta biaya-biaya yang akan dibebankan kepada saya.</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td class="justify">Saya memahami bahwa manfaat asuransi ini berupa manfaat perlindungan atas risiko meninggal dunia karena Kecelakaan hanya akan diberikan jika terjadi risiko sebagaimana tercantum dalam Polis Asuransi.</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td class="justify">Saya memahami bahwa pada Produk Asuransi terdapat klausul Pengecualian sehingga manfaat perlindungan risiko tidak dapat dibayarkan dalam hal terjadi kondisi yang dikecualikan tersebut.</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+
+      <p style="text-align:right; font-size:8pt; margin-top:6px;">Ditandatangani di :______________________, tanggal________________</p>
+
+      <table class="ttd-table" style="margin-top:6px;">
+        <tr>
+          <td class="ttd-header fw-bold" style="width:40%; text-align:center;">Tanda tangan dan nama<br/><strong>Tenaga Pemasar</strong></td>
+          <td style="width:20%; border:none;">&nbsp;</td>
+          <td class="ttd-header fw-bold" style="width:40%; text-align:center;">Tanda tangan dan nama<br/><strong>Pemegang Polis</strong></td>
+        </tr>
+        <tr>
+          <td class="ttd-spacer"></td>
+          <td style="border:none;"></td>
+          <td class="ttd-spacer"></td>
+        </tr>
+        <tr>
+          <td style="border-top:1px solid #000; padding:3px 6px; font-size:8pt;">Nama Lengkap :</td>
+          <td style="border:none;"></td>
+          <td style="border-top:1px solid #000; padding:3px 6px; font-size:8pt;">Nama Lengkap :</td>
+        </tr>
+      </table>
+
+      <!-- FOOTER -->
+      <table class="footer-table" style="margin-top:10px;">
+        <tr>
+          <td style="width:40%; text-align:center; font-size:8pt;">
+            <strong>PT Capital Life Indonesia berizin dan diawasi oleh<br/>Otoritas Jasa Keuangan (OJK)</strong>
+          </td>
+          <td style="width:20%;">&nbsp;</td>
+          <td style="width:40%; text-align:right; font-size:8pt;">Tanggal Cetak Dokumen</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+
+</body>
+</html>

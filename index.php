@@ -14,7 +14,7 @@ $options->set('defaultFont', 'Calibri');
 $dompdf = new Dompdf($options);
 
 // $html = file_get_contents('CPP-USD.html');
-$html = file_get_contents('CPP-IDR.html');
+$html = file_get_contents('example.html');
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');

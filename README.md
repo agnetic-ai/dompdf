@@ -1,1 +1,20 @@
-# dompdf
+# Codex Refactor DomPDF
+
+TUGAS :
+
+- DOCX Document-CPP-USD.docx adalah TEMPLATE UTAMA
+- Ikuti Perubahan hanya mengikuti template yang ada di DOCX Document-CPP-USD.docx
+- Lakukan perubahan pada CPP-USD-CODEX.html
+- Lakukan perubahan pada index-for-codex.php
+
+RULE :
+
+- SETIAP MELAKUKAN PERUBAHAN CODE WAJIB MEINTA KONFIRMASI
+- GUNAKAN BAHASA INDONESIA
+- JANGAN MELAKUKAN PERUBAHAN DI LUAR KONTEKS
+
+  WORKFLOW :
+
+- BACA DOCX Document-CPP-USD.docx PAHAMI ISINYA
+- BACA CPP-USD-CODEX.html PAHAMI ISINYA
+- BANDINGKAN DOKUMEN CPP-USD-CODEX.html DAN Document-CPP-USD.docx APAKAH ADA PERDEDAAN FIELD

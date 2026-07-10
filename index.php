@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/cpp-usd-pdf-generator.php';
+require_once __DIR__ . '/cpp-pdf-generator.php';
 
 const SAMPLE_JSON_FILES = [
     'IDR' => __DIR__ . '/SPAJ_JSON_IDR_20260623033241.json',

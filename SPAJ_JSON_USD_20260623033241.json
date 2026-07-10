@@ -5,14 +5,14 @@
   "cpp_tgl_asu": "23 Juni 2026",
   "cpp_dbo": "11 Maret 1970",
   "cpp_age": "56 Tahun",
-  "cpp_premi": "183.000.000,00 USD",
+  "cpp_premi": "USD 12,200.00",
   "cpp_periode": "6 Bulan",
   "cpp_masa_asu": "1 (Satu) Tahun",
   "cpp_akhir_asu": "22 Juni 2027",
   "cpp_mti_hari": 365,
   "cpp_mti_pa": "4,45 %",
-  "cpp_up": "274.500.000,00 USD",
-  "cpp_mti_total": "8.143.500,00 USD",
+  "cpp_up": "USD 18,300.00",
+  "cpp_mti_total": "USD 542.90",
   "cpp_currency": "USD",
   "total_days": 365,
   "data_tabel": [
@@ -20,109 +20,109 @@
       "periode": 1,
       "bulan": "23 Jun 2026 s.d 22 Jul 2026",
       "jumlah_hari": 30,
-      "mti_jumlah_hari": "669.328,77",
-      "saldo_investasi": "183.669.328,77",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 44.62",
+      "saldo_investasi": "USD 12,244.62",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 2,
       "bulan": "23 Jul 2026 s.d 22 Agu 2026",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "184.360.968,49",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,290.73",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 3,
       "bulan": "23 Agu 2026 s.d 22 Sep 2026",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "185.052.608,22",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,336.84",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 4,
       "bulan": "23 Sep 2026 s.d 22 Okt 2026",
       "jumlah_hari": 30,
-      "mti_jumlah_hari": "669.328,77",
-      "saldo_investasi": "185.721.936,99",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 44.62",
+      "saldo_investasi": "USD 12,381.46",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 5,
       "bulan": "23 Okt 2026 s.d 22 Nov 2026",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "186.413.576,71",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,427.57",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 6,
       "bulan": "23 Nov 2026 s.d 22 Des 2026",
       "jumlah_hari": 30,
-      "mti_jumlah_hari": "669.328,77",
-      "saldo_investasi": "187.082.905,48",
-      "manfaat_investasi": "4.082.905,48",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 44.62",
+      "saldo_investasi": "USD 12,472.19",
+      "manfaat_investasi": "USD 272.19",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 7,
       "bulan": "23 Des 2026 s.d 22 Jan 2027",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "187.774.545,21",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,518.30",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 8,
       "bulan": "23 Jan 2027 s.d 22 Feb 2027",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "188.466.184,93",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,564.41",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 9,
       "bulan": "23 Feb 2027 s.d 22 Mar 2027",
       "jumlah_hari": 28,
-      "mti_jumlah_hari": "624.706,85",
-      "saldo_investasi": "189.090.891,78",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 41.65",
+      "saldo_investasi": "USD 12,606.06",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 10,
       "bulan": "23 Mar 2027 s.d 22 Apr 2027",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "189.782.531,51",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,652.17",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 11,
       "bulan": "23 Apr 2027 s.d 22 Mei 2027",
       "jumlah_hari": 30,
-      "mti_jumlah_hari": "669.328,77",
-      "saldo_investasi": "190.451.860,27",
-      "manfaat_investasi": "0",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 44.62",
+      "saldo_investasi": "USD 12,696.79",
+      "manfaat_investasi": "USD 0.00",
+      "klaim": "USD 18,300.00"
     },
     {
       "periode": 12,
       "bulan": "23 Mei 2027 s.d 22 Jun 2027",
       "jumlah_hari": 31,
-      "mti_jumlah_hari": "691.639,73",
-      "saldo_investasi": "191.143.500,00",
-      "manfaat_investasi": "4.060.594,52",
-      "klaim": "274.500.000,00"
+      "mti_jumlah_hari": "USD 46.11",
+      "saldo_investasi": "USD 12,742.90",
+      "manfaat_investasi": "USD 270.71",
+      "klaim": "USD 18,300.00"
     }
   ],
   "cpp_promo_bunga": "",

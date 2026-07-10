@@ -23,36 +23,26 @@ Dokumen ini berfungsi sebagai sumber kebenaran tunggal (_Single Source of Truth_
 
 ### 2.1 Pola Arsitektur (Architecture Pattern)
 
-_Proyek ini menggunakan pola arsitektur **[Clean Architecture / Layered Architecture / Microservices]**._
-
-- **Presentation Layer:** Menangani UI dan input pengguna (Controller, Router, Views).
-- **Domain / Business Logic Layer:** Berisi _use cases_, aturan bisnis inti, dan entitas.
-- **Data / Infrastructure Layer:** Menangani akses database, API eksternal, dan integrasi repositori.
+_Proyek ini menggunakan pola arsitektur **monolith**._
 
 ### 2.2 Alur Data (Data Flow)
 
-1. Request masuk melalui API Gateway / Router.
-2. Router meneruskan ke Controller untuk validasi input awal.
-3. Controller memanggil Service/Use Case yang berisi logika bisnis.
-4. Service berinteraksi dengan Repository untuk mengambil atau menyimpan data ke database.
+1. Request masuk melalui index.php
+2. Router dari index.php di teruskan ke cpp-pdf-generator.php
+3. Lalu cpp-pdf-generator.php memvalidari currency dari parameter USD/IDR
+4. CPP-IDR-New.html berfungsi sebagai template IDR
+5. CPP-USD-New.html berfungsi sebagai template USD
 
 ---
 
 ## 3. Struktur Direktori (Directory Structure)
 
 ```text
-├── src/
-│   ├── config/          # Konfigurasi aplikasi dan variabel lingkungan (env)
-│   ├── controllers/     # Menangani HTTP request & response
-│   ├── domain/          # Entitas bisnis inti dan aturan domain
-│   ├── middlewares/     # Middleware untuk autentikasi, logging, dll.
-│   ├── models/          # Skema database / ORM models
-│   ├── repositories/    # Abstraksi akses database (Query, CRUD)
-│   ├── services/        # Logika bisnis inti (Use Cases)
-│   ├── utils/           # Fungsi pembantu (helpers) yang reusable
-│   └── app.js           # Entry point aplikasi
-├── docker/              # Konfigurasi lingkungan Docker (Development/Production)
-├── tests/               # Unit testing dan Integration testing
+├── .agents/
+│   ├── guide-idr.md          # Penjelasan untuk currency IDR
+│   └── CODEX.md           # Panduan untuk CODEX
+├── index.php              # Index awal
+├── cpp-pdf-generator      # pdf generator, validasi parametar, parsing parameter
 ├── README.md            # Panduan instalasi dan menjalankan proyek
 └── CODEX.md             # Dokumen standar ini
 ```

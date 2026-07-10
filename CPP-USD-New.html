@@ -265,6 +265,7 @@
       }
 
       .page-safe,
+      .simulasi-data,
       .simulasi-coverage,
       .simulasi-illustration,
       .info-block,
@@ -277,8 +278,35 @@
       .disclaimer-block + .disclaimer-block {
         margin-top: 8px;
       }
+      .section-block.simulasi-data,
+      .section-block.simulasi-data.page-safe {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .simulasi-data .section-subheader {
+        page-break-after: avoid !important;
+      }
+
+      .simulasi-data .content-padding,
+      .simulasi-data table,
+      .simulasi-data tbody,
+      .simulasi-data tr,
+      .simulasi-data td,
+      .simulasi-data th {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .simulasi-data .bordered-table tr,
+      .simulasi-data .inner-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
       .simulasi-coverage .content-padding,
       .simulasi-coverage table,
+      .simulasi-coverage tbody,
       .simulasi-coverage tr,
       .simulasi-coverage td,
       .simulasi-coverage th,
@@ -389,6 +417,97 @@
       .pernyataan-section .footer-table.footer-with-logo .footer-right {
         vertical-align: top !important;
         padding-top: 8px !important;
+      }
+
+      /* ===== FIX TABLE MANFAAT ASURANSI ===== */
+      .simulasi-benefits,
+      .simulasi-benefits.page-safe {
+        page-break-before: auto !important;
+        break-before: auto !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        border: none !important;
+        margin-top: 0 !important;
+      }
+
+      .simulasi-benefits .content-padding {
+        padding: 6px 8px !important;
+      }
+
+      .benefit-table-title {
+        margin: 0 0 2px 2px !important;
+        font-size: 8.5pt !important;
+        line-height: 1.2 !important;
+        font-weight: bold !important;
+      }
+
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border: none !important;
+        margin: 0 !important;
+        font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+      }
+
+      .manfaat-asuransi-table th,
+      .manfaat-asuransi-table td {
+        border: 1px solid #000 !important;
+        padding: 2px 4px !important;
+        font-size: 8pt !important;
+        line-height: 1.18 !important;
+        vertical-align: middle !important;
+        background: transparent !important;
+        color: #000 !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .manfaat-asuransi-table th {
+        font-weight: bold !important;
+        text-align: center !important;
+        font-size: 8.3pt !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+      }
+
+      .manfaat-asuransi-table tbody td:nth-child(1),
+      .manfaat-asuransi-table tbody td:nth-child(3) {
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table tbody td:nth-child(2) {
+        text-align: left !important;
+      }
+
+      .manfaat-asuransi-table tbody td:nth-child(4),
+      .manfaat-asuransi-table tbody td:nth-child(5),
+      .manfaat-asuransi-table tbody td:nth-child(6),
+      .manfaat-asuransi-table tbody td:nth-child(7) {
+        text-align: right !important;
+        white-space: nowrap !important;
+      }
+
+      .manfaat-asuransi-table .benefit-total-row td,
+      .manfaat-asuransi-table tfoot td {
+        height: 16px !important;
+        font-weight: bold !important;
+        font-size: 8.5pt !important;
+      }
+
+      .manfaat-asuransi-table .no-border {
+        border: none !important;
+        background: transparent !important;
+      }
+
+      .manfaat-asuransi-table .total-cell {
+        border: 1px solid #000 !important;
+        text-align: center !important;
+        background: #fff !important;
+      }
+
+      .manfaat-asuransi-table .total-cell.total-money {
+        text-align: right !important;
       }
 
       /* ===== FINAL FIX USD: TABLE PERNYATAAN + LOGO BARU =====
@@ -524,6 +643,116 @@
         margin: 0 !important;
         display: block !important;
         box-sizing: border-box !important;
+      }
+
+      /* ===== FINAL FIX USD: MANFAAT ASURANSI TABLE ===== */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border: 1px solid #163a70 !important;
+        margin: 0 !important;
+        font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+      }
+
+      .manfaat-asuransi-table th,
+      .manfaat-asuransi-table td {
+        border: 1px solid #163a70 !important;
+        padding: 3px 5px !important;
+        font-size: 8pt !important;
+        line-height: 1.2 !important;
+        vertical-align: middle !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .manfaat-asuransi-table th {
+        background: #1f4e79 !important;
+        color: #fff !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        padding: 6px 5px !important;
+        word-break: normal !important;
+        word-wrap: normal !important;
+        overflow-wrap: normal !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table td {
+        background: transparent !important;
+        color: #000 !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 6% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 28% !important;
+        text-align: left !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 8% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 15% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4) {
+        font-size: 7.6pt !important;
+        line-height: 1.12 !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(4) {
+        text-align: right !important;
+        white-space: nowrap !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 15% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 14% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 14% !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(7) {
+        text-align: right !important;
+        white-space: nowrap !important;
+      }
+
+      .manfaat-asuransi-table .no-border {
+        border: none !important;
+        background: transparent !important;
+      }
+
+      .manfaat-asuransi-table .total-cell {
+        border: 1px solid #163a70 !important;
+        background: transparent !important;
+        font-weight: bold !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table .total-money {
+        text-align: right !important;
       }
     </style>
   </head>
@@ -859,76 +1088,67 @@
         </tr>
       </table>
     </div>
-    <div class="section-block simulasi-data">
+    <div class="section-block simulasi-data page-safe">
       <div class="section-subheader"><span>SIMULASI</span></div>
       <div class="content-padding">
-        <p class="fw-bold text-sm" style="margin-bottom: 4px">Data Polis</p>
         <table class="inner-table" style="margin-bottom: 8px">
           <tr>
-            <td class="fw-bold" style="width: 20%">Nama Pemegang Polis</td>
+            <td style="width: 20%">Nama Pemegang Polis</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_nama_pp}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">Masa Pembayaran Premi</td>
+            <td style="width: 20%">Masa Pembayaran Premi</td>
             <td style="width: 2%">:</td>
             <td><span class="highlight-yellow">Sekaligus</span></td>
           </tr>
           <tr>
-            <td class="fw-bold" style="width: 20%">Nama Tertanggung</td>
+            <td>Nama Tertanggung</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_nama_tt}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">Metode Pembayaran Premi</td>
+            <td>Metode Pembayaran Premi</td>
             <td style="width: 2%">:</td>
             <td><span class="highlight-yellow">Sekaligus</span></td>
           </tr>
           <tr>
-            <td class="fw-bold" style="width: 20%">
-              Tanggal Lahir Tertanggung
-            </td>
+            <td>Tanggal Lahir Tertanggung</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_dbo}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">
-              Tanggal Mulai Pertanggungan
-            </td>
+            <td>Tanggal Mulai Pertanggungan</td>
             <td style="width: 2%">:</td>
             <td><span class="highlight-yellow">{cpp_tgl_asu}</span></td>
           </tr>
           <tr>
-            <td class="fw-bold" style="width: 20%">Usia Tertanggung</td>
+            <td>Usia Tertanggung</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_age}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">
-              Tanggal Berakhir Pertanggungan
-            </td>
+            <td>Tanggal Berakhir Pertanggungan</td>
             <td style="width: 2%">:</td>
             <td><span class="highlight-yellow">{cpp_akhir_asu}</span></td>
           </tr>
           <tr>
-            <td class="fw-bold" style="width: 20%">Mata Uang</td>
+            <td>Mata Uang</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_currency}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">Masa Garansi Investasi</td>
+            <td>Masa Garansi Investasi</td>
             <td style="width: 2%">:</td>
             <td><span class="highlight-yellow">{cpp_periode}</span></td>
           </tr>
           <tr>
-            <td class="fw-bold" style="width: 20%">Premi</td>
+            <td>Premi</td>
             <td style="width: 2%">:</td>
             <td style="width: 22%">
               <span class="highlight-yellow">{cpp_premi}</span>
             </td>
-            <td class="fw-bold" style="width: 20%">
-              Tingkat Garansi Investasi
-            </td>
+            <td>Tingkat Garansi Investasi</td>
             <td style="width: 2%">:</td>
             <td>
               <span class="highlight-yellow">{cpp_mti_pa} per tahun</span>
@@ -939,7 +1159,7 @@
     </div>
     <div class="section-block simulasi-coverage page-safe">
       <div class="content-padding">
-        <table class="bordered-table">
+        <table class="bordered-table" style="margin-bottom: 0">
           <tr>
             <th style="width: 25%">Jenis Pertanggungan</th>
             <th style="width: 25%">Masa Pertanggungan</th>
@@ -967,52 +1187,124 @@
             </td>
           </tr>
         </table>
+        <br />
+        <hr />
+        <br />
+        <p class="benefit-table-title">Tabel Manfaat Asuransi</p>
+        <table class="manfaat-asuransi-table">
+          <colgroup>
+            <col style="width: 6%" />
+            <col style="width: 28%" />
+            <col style="width: 8%" />
+            <col style="width: 15%" />
+            <col style="width: 15%" />
+            <col style="width: 14%" />
+            <col style="width: 14%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Periode</th>
+              <th>Bulan</th>
+              <th>Jumlah Hari</th>
+              <th>
+                <span style="white-space: nowrap">Manfaat Investasi</span
+                ><br /><span style="font-size: 7.1pt"
+                  >(sesuai jumlah hari)</span
+                >
+              </th>
+              <th>Saldo Investasi</th>
+              <th>Manfaat Investasi</th>
+              <th>Klaim Meninggal<br />Karena Kecelakaan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data_tabel}
+          </tbody>
+          <tfoot>
+            <tr class="benefit-total-row">
+              <td class="no-border" colspan="2"></td>
+              <td class="total-cell">
+                <span class="highlight-yellow">{total_days}</span>
+              </td>
+              <td class="no-border" colspan="2"></td>
+              <td class="total-cell total-money">
+                <span class="highlight-yellow">{cpp_mti_total}</span>
+              </td>
+              <td class="no-border"></td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
     <div class="section-block simulasi-illustration page-safe">
       <div class="content-padding">
-        <p class="fw-bold text-sm">Ilustrasi Kasus :</p>
+        <p class="fw-bold text-sm" style="margin-bottom: 3px">
+          Ilustrasi Kasus:
+        </p>
         <p class="justify text-sm">
           <span class="highlight-blue">{cpp_nama_tt}</span> meninggal dunia pada
-          tanggal 31 Desember 2026 karena Kecelakaan akibat melakukan aktivitas
-          penerbangan sebagai penumpang pesawat udara yang diselenggarakan oleh
-          perusahaan penerbangan komersial resmi yang mempunyai jadwal
-          penerbangan tetap dan teratur dan yang sedang menjalani rute
-          penerbangan yang telah ditetapkan dalam jadwal penerbangannya.
+          tanggal <span class="highlight-blue">{cpp_tgl_129_asu}</span> karena
+          Kecelakaan akibat melakukan aktivitas penerbangan sebagai penumpang
+          pesawat udara yang diselenggarakan oleh perusahaan penerbangan
+          komersial resmi yang mempunyai jadwal penerbangan tetap dan teratur
+          dan yang sedang menjalani rute penerbangan yang telah ditetapkan dalam
+          jadwal penerbangannya.
         </p>
         <p class="justify text-sm">
-          Ahli waris dari <span class="highlight-blue">{cpp_nama_tt}</span>
-          yang ditunjuk sebagai Penerima Manfaat mengajukan Klaim kepada
-          Penanggung pada tanggal 01 Januari 2027 .
+          Ahli waris dari <span class="highlight-blue">{cpp_nama_tt}</span> yang
+          ditunjuk sebagai Penerima Manfaat mengajukan Klaim kepada Penanggung
+          pada tanggal <span class="highlight-blue">{cpp_tgl_130_asu}</span>.
         </p>
-        <p class="justify text-sm">Bagaimana pengajuan Klaimnya ..?</p>
-        <p class="fw-bold justify text-sm">Analisa Klaim :</p>
+        <p class="justify text-sm">Bagaimana pengajuan Klaimnya..?</p>
+        <p class="fw-bold text-sm" style="margin-top: 5px">Analisa Klaim :</p>
         <p class="justify text-sm">
           Penanggung akan membayarkan Manfaat Asuransi sebesar 100% Uang
-          Pertanggungan, yakni sebesar USD 150.000,- ditambah Nilai Polis yang
-          terbentuk pada tanggal pengajuan Klaim, yakni 01 Januari 2027 dan
-          selanjutnya pertanggungan berakhir.
+          Pertanggungan, yakni sebesar
+          <span class="highlight-blue">{cpp_up},-</span> ditambah Nilai Polis
+          yang terbentuk pada tanggal pengajuan Klaim, yakni
+          <span class="highlight-blue">{cpp_tgl_130_asu}</span> dan selanjutnya
+          pertanggungan berakhir.
         </p>
-        <p class="justify text-sm">
-          Perhitungan Nilai Polis dimaksud adalah sbb :
+        <p class="text-sm">Perhitungan Nilai Polis dimaksud adalah sbb :</p>
+        <p class="text-sm">
+          Hasil Investasi pada tanggal pengajuan Klaim sebesar :
+          <span class="highlight-blue">{hasil_investasi}</span>,- dihitung dari
+          :
         </p>
-        <p class="justify text-sm">
-          Hasil Investasi pada tanggal pengajuan Klaim sebesar : USD 200,55 ,-
-          dihitung dari :
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue"> {cpp_premi},-</span> x
+          <span class="highlight-blue">{cpp_mti_pa} </span>x (<span
+            class="highlight-blue tgl-format"
+            >{claim_elapsed_days}</span
+          >
+          / {total_days})
         </p>
-        <p class="justify text-sm">
-          {cpp_premi} x {cpp_mti_pa} x ( 122 / 365 )
+        <p class="text-sm" style="margin-top: 5px">
+          Sehingga Nilai Polis yang dibayarkan adalah sebesar :
+          <span class="highlight-blue">{nilai_polis}</span>,- dihitung dari :
         </p>
-        <p class="justify text-sm">
-          Sehingga Nilai Polis yang dibayarkan adalah sebesar : USD 10.200,55 ,-
-          dihitung dari :
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue">{cpp_premi},-</span> +
+          <span class="highlight-blue">{hasil_investasi},-</span>
         </p>
-        <p class="justify text-sm">{cpp_premi} + USD 200,55,-</p>
-        <p class="justify text-sm">
+        <p class="text-sm" style="margin-top: 5px">
           Dengan demikian total Manfaat Asuransi yang diterima Penerima Manfaat
-          adalah sebesar : USD 25.200,55 ,- dihitung dari :
+          adalah sebesar :
+          <span class="highlight-blue">{total_claim}</span>,- dihitung dari:
         </p>
-        <p class="justify text-sm">{cpp_up} + USD 10.250,55,-</p>
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue">{cpp_up},-</span>+
+          <span class="highlight-blue">{nilai_polis},-</span>
+        </p>
       </div>
     </div>
     <div class="section-block info-block page-safe">

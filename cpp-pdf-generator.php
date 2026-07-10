@@ -6,7 +6,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 const CPP_TEMPLATE_FILES = [
-    'USD' => __DIR__ . '/CPP-USD-CODEX.html',
+    'USD' => __DIR__ . '/CPP-USD-New.html',
     'IDR' => __DIR__ . '/CPP-IDR-New.html',
 ];
 
@@ -126,23 +126,62 @@ function cpp_parse_money_value($value): ?float
         return null;
     }
 
+    $isNegative = str_contains($normalized, '-');
+    $normalized = str_replace('-', '', $normalized);
+
+    if ($normalized === '' || preg_match('/\d/', $normalized) !== 1) {
+        return null;
+    }
+
     $lastComma = strrpos($normalized, ',');
     $lastDot = strrpos($normalized, '.');
 
     if ($lastComma !== false && $lastDot !== false) {
-        if ($lastComma > $lastDot) {
-            $normalized = str_replace('.', '', $normalized);
-            $normalized = str_replace(',', '.', $normalized);
-        } else {
-            $normalized = str_replace(',', '', $normalized);
+        $decimalSeparator = $lastComma > $lastDot ? ',' : '.';
+        $decimalPosition = strrpos($normalized, $decimalSeparator);
+        $integerPart = substr($normalized, 0, $decimalPosition);
+        $fractionalPart = substr($normalized, $decimalPosition + 1);
+        $integerDigits = preg_replace('/\D/', '', $integerPart);
+        $fractionalDigits = preg_replace('/\D/', '', $fractionalPart);
+
+        if ($integerDigits === null || $integerDigits === '') {
+            return null;
         }
-    } elseif ($lastComma !== false) {
-        $normalized = str_replace(',', '.', $normalized);
-    } elseif (substr_count($normalized, '.') > 1 || preg_match('/\.\d{3}$/', $normalized) === 1) {
-        $normalized = str_replace('.', '', $normalized);
+
+        $normalized = $integerDigits . ($fractionalDigits !== '' ? '.' . $fractionalDigits : '');
+    } else {
+        $separator = $lastComma !== false ? ',' : ($lastDot !== false ? '.' : null);
+
+        if ($separator !== null) {
+            $parts = explode($separator, $normalized);
+            $lastPart = end($parts);
+            $separatorCount = count($parts) - 1;
+            $hasDecimalPart = strlen($lastPart) !== 3 || $separatorCount === 1 && strlen($lastPart) <= 2;
+
+            if ($hasDecimalPart) {
+                $fractionalPart = array_pop($parts);
+                $integerDigits = preg_replace('/\D/', '', implode('', $parts));
+                $fractionalDigits = preg_replace('/\D/', '', $fractionalPart);
+
+                if ($integerDigits === null || $integerDigits === '') {
+                    return null;
+                }
+
+                $normalized = $integerDigits . ($fractionalDigits !== '' ? '.' . $fractionalDigits : '');
+            } else {
+                $normalized = preg_replace('/\D/', '', $normalized);
+            }
+        } else {
+            $normalized = preg_replace('/\D/', '', $normalized);
+        }
     }
 
-    return is_numeric($normalized) ? (float) $normalized : null;
+    if ($normalized === null || $normalized === '' || !is_numeric($normalized)) {
+        return null;
+    }
+
+    $number = (float) $normalized;
+    return $isNegative ? -$number : $number;
 }
 
 function cpp_parse_percent_value($value): ?float
@@ -275,6 +314,7 @@ function cpp_format_indonesian_date(DateTimeImmutable $date): string
 
 function cpp_enrich_derived_data(array $data): array
 {
+    $currency = cpp_currency($data);
     $startDate = cpp_parse_indonesian_date($data['cpp_tgl_asu']);
     $premium = cpp_parse_money_value($data['cpp_premi']);
     $sumInsured = cpp_parse_money_value($data['cpp_up']);
@@ -306,12 +346,13 @@ function cpp_enrich_derived_data(array $data): array
     $data['claim_elapsed_days'] = $claimElapsedDays;
     $data['cpp_tgl_129_asu'] = cpp_format_indonesian_date($startDate->modify('+129 days'));
     $data['cpp_tgl_130_asu'] = cpp_format_indonesian_date($startDate->modify('+130 days'));
-    $data['hasil_investasi'] = $investmentResult;
-    $data['nilai_polis'] = $policyValue;
-    $data['total_claim'] = $totalClaim;
+    $data['hasil_investasi'] = $currency === 'USD' ? cpp_format_usd_currency($investmentResult) : $investmentResult;
+    $data['nilai_polis'] = $currency === 'USD' ? cpp_format_usd_currency($policyValue) : $policyValue;
+    $data['total_claim'] = $currency === 'USD' ? cpp_format_usd_currency($totalClaim) : $totalClaim;
 
     if (!array_key_exists('cpp_mti_total', $data) || !is_scalar($data['cpp_mti_total']) || (string) $data['cpp_mti_total'] === '') {
-        $data['cpp_mti_total'] = $premium * $investmentRate;
+        $investmentTotal = $premium * $investmentRate;
+        $data['cpp_mti_total'] = $currency === 'USD' ? cpp_format_usd_currency($investmentTotal) : $investmentTotal;
     }
 
     return $data;
@@ -324,11 +365,51 @@ function cpp_format_idr_currency($value): string
         return (string) $value;
     }
 
-    return 'Rp. ' . number_format((float) round($number), 0, ',', '.');
+    return 'Rp. ' . number_format((float) $number, 2, ',', '.');
+}
+
+function cpp_format_usd_currency($value): string
+{
+    $number = cpp_parse_money_value($value);
+    if ($number === null) {
+        return (string) $value;
+    }
+
+    return 'USD ' . number_format((float) $number, 2, '.', ',');
+}
+
+function cpp_format_idr_amount($value): string
+{
+    $number = cpp_parse_money_value($value);
+    if ($number === null) {
+        return (string) $value;
+    }
+
+    return number_format((float) $number, 2, ',', '.');
+}
+
+function cpp_format_usd_amount($value): string
+{
+    $number = cpp_parse_money_value($value);
+    if ($number === null) {
+        return (string) $value;
+    }
+
+    return number_format((float) $number, 2, '.', ',');
 }
 
 function cpp_display_value(string $key, $value, string $currency): string
 {
+    if ($key === 'cpp_mti_total') {
+        if ($currency === 'IDR') {
+            return cpp_format_idr_amount($value);
+        }
+
+        if ($currency === 'USD') {
+            return cpp_format_usd_amount($value);
+        }
+    }
+
     if ($currency === 'IDR' && in_array($key, cpp_money_fields(), true)) {
         return cpp_format_idr_currency($value);
     }
@@ -338,8 +419,16 @@ function cpp_display_value(string $key, $value, string $currency): string
 
 function cpp_data_table_display_value(string $column, $value, string $currency): string
 {
-    if ($currency === 'IDR' && in_array($column, cpp_data_table_money_columns(), true)) {
-        return cpp_format_idr_currency($value);
+    if (!in_array($column, cpp_data_table_money_columns(), true)) {
+        return (string) $value;
+    }
+
+    if ($currency === 'IDR') {
+        return cpp_format_idr_amount($value);
+    }
+
+    if ($currency === 'USD') {
+        return cpp_format_usd_amount($value);
     }
 
     return (string) $value;

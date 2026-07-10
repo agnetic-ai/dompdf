@@ -747,97 +747,100 @@
         box-sizing: border-box !important;
       }
 
-      /* ===== FIX TABLE MANFAAT ASURANSI =====
-         Format dibuat mengikuti contoh Excel: border normal/solid, header putih,
-         kolom proporsional, angka rata kanan, dan total terpisah. */
-      .simulasi-benefits,
-      .simulasi-benefits.page-safe {
-        page-break-before: auto !important;
-        break-before: auto !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        border: none !important;
-        margin-top: 0 !important;
-      }
-
-      .simulasi-benefits .content-padding {
-        padding: 6px 8px !important;
-      }
-
-      .benefit-table-title {
-        margin: 0 0 2px 2px !important;
-        font-size: 8.5pt !important;
-        line-height: 1.2 !important;
-        font-weight: bold !important;
-      }
-
+      /* ===== FIX TABLE MANFAAT ASURANSI ===== */
       .manfaat-asuransi-table {
         width: 100% !important;
         table-layout: fixed !important;
         border-collapse: collapse !important;
-        border: none !important;
+        border: 1px solid #163a70 !important;
         margin: 0 !important;
         font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
       }
-
       .manfaat-asuransi-table th,
       .manfaat-asuransi-table td {
-        border: 1px solid #000 !important;
-        padding: 2px 4px !important;
+        border: 1px solid #163a70 !important;
+        padding: 3px 5px !important;
         font-size: 8pt !important;
-        line-height: 1.18 !important;
+        line-height: 1.2 !important;
         vertical-align: middle !important;
-        background: #79acff !important;
-        color: #000 !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
       }
-
       .manfaat-asuransi-table th {
+        background: #1f4e79 !important;
+        color: #fff !important;
+        text-align: center !important;
         font-weight: bold !important;
+        padding: 6px 5px !important;
+      }
+      .manfaat-asuransi-table td {
+        background: transparent !important;
+        color: #000 !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 6% !important;
         text-align: center !important;
-        font-size: 8.3pt !important;
-        padding-top: 5px !important;
-        padding-bottom: 5px !important;
       }
-
-      .manfaat-asuransi-table tbody td:nth-child(1),
-      .manfaat-asuransi-table tbody td:nth-child(3) {
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 22% !important;
+      }
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 8% !important;
         text-align: center !important;
       }
-
-      .manfaat-asuransi-table tbody td:nth-child(2) {
-        text-align: left !important;
-      }
-
-      .manfaat-asuransi-table tbody td:nth-child(4),
-      .manfaat-asuransi-table tbody td:nth-child(5),
-      .manfaat-asuransi-table tbody td:nth-child(6),
-      .manfaat-asuransi-table tbody td:nth-child(7) {
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 16% !important;
         text-align: right !important;
-        white-space: nowrap !important;
       }
-
-      .manfaat-asuransi-table .benefit-total-row td,
-      .manfaat-asuransi-table tfoot td {
-        height: 16px !important;
-        font-weight: bold !important;
-        font-size: 8.5pt !important;
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 16% !important;
+        text-align: right !important;
       }
 
       .manfaat-asuransi-table .no-border {
         border: none !important;
         background: transparent !important;
       }
-
       .manfaat-asuransi-table .total-cell {
-        border: 1px solid #000 !important;
+        background: transparent !important;
+        font-weight: bold !important;
         text-align: center !important;
-        background: #fff !important;
+      }
+      .manfaat-asuransi-table .total-money {
+        text-align: right !important;
       }
 
-      .manfaat-asuransi-table .total-cell.total-money {
-        text-align: right !important;
+      .manfaat-asuransi-table th {
+        word-break: normal !important;
+        word-wrap: normal !important;
+        overflow-wrap: normal !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4) {
+        font-size: 7.6pt !important;
+        line-height: 1.12 !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(4) {
+        white-space: nowrap !important;
       }
     </style>
   </head>
@@ -1282,23 +1285,28 @@
         <br />
         <hr />
         <br />
-        <p class="benefit-table-title">Tabel Manfaat Asuransi</p>
+        <p class="benefit-table-title fw-bold">Tabel Manfaat Asuransi</p>
         <table class="manfaat-asuransi-table">
           <colgroup>
+            <col style="width: 6%" />
+            <col style="width: 28%" />
             <col style="width: 8%" />
-            <col style="width: 16%" />
             <col style="width: 15%" />
             <col style="width: 15%" />
-            <col style="width: 15%" />
-            <col style="width: 15%" />
-            <col style="width: 16%" />
+            <col style="width: 14%" />
+            <col style="width: 14%" />
           </colgroup>
           <thead>
             <tr>
               <th>Periode</th>
               <th>Bulan</th>
               <th>Jumlah Hari</th>
-              <th>Manfaat Investasi<br />(sesuai jumlah hari)</th>
+              <th>
+                <span style="white-space: nowrap">Manfaat Investasi</span
+                ><br /><span style="font-size: 7.1pt"
+                  >(sesuai jumlah hari)</span
+                >
+              </th>
               <th>Saldo Investasi</th>
               <th>Manfaat Investasi</th>
               <th>Klaim Meninggal<br />Karena Kecelakaan</th>

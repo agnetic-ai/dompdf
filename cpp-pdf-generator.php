@@ -5,14 +5,23 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-const CPP_TEMPLATE_FILES = [
-    'USD' => __DIR__ . '/CPP-USD-New.html',
-    'IDR' => __DIR__ . '/CPP-IDR-New.html',
-];
+// PHP 5.4 melempar warning fatal saat instantiate DateTime bila date.timezone
+// belum di-set di php.ini. Set default aman kalau belum dikonfigurasi.
+if (!ini_get('date.timezone')) {
+    date_default_timezone_set('Asia/Jakarta');
+}
 
-function cpp_required_fields(): array
+function cpp_template_files()
 {
-    return [
+    return array(
+        'USD' => __DIR__ . '/CPP-USD-New.html',
+        'IDR' => __DIR__ . '/CPP-IDR-New.html',
+    );
+}
+
+function cpp_required_fields()
+{
+    return array(
         'cpp_nama_pp',
         'cpp_nama_tt',
         'cpp_tgl_asu',
@@ -24,35 +33,37 @@ function cpp_required_fields(): array
         'cpp_mti_pa',
         'cpp_up',
         'cpp_currency',
-    ];
+    );
 }
 
-function cpp_currency(array $data): string
+function cpp_currency(array $data)
 {
-    $currency = strtoupper(trim((string) ($data['cpp_currency'] ?? '')));
+    $currency = strtoupper(trim((string) (isset($data['cpp_currency']) ? $data['cpp_currency'] : '')));
 
-    if (!array_key_exists($currency, CPP_TEMPLATE_FILES)) {
+    $templateFiles = cpp_template_files();
+    if (!array_key_exists($currency, $templateFiles)) {
         throw new InvalidArgumentException('Unsupported cpp_currency: ' . $currency . '. Gunakan USD atau IDR.');
     }
 
     return $currency;
 }
 
-function cpp_template_file(array $data): string
+function cpp_template_file(array $data)
 {
-    return CPP_TEMPLATE_FILES[cpp_currency($data)];
+    $templateFiles = cpp_template_files();
+    return $templateFiles[cpp_currency($data)];
 }
 
-function cpp_validate_data(array $data): void
+function cpp_validate_data(array $data)
 {
-    $missingFields = [];
+    $missingFields = array();
     foreach (cpp_required_fields() as $field) {
         if (!array_key_exists($field, $data) || !is_scalar($data[$field]) || (string) $data[$field] === '') {
             $missingFields[] = $field;
         }
     }
 
-    if ($missingFields !== []) {
+    if ($missingFields !== array()) {
         throw new InvalidArgumentException('Missing required data fields: ' . implode(', ', $missingFields));
     }
 
@@ -60,41 +71,42 @@ function cpp_validate_data(array $data): void
     cpp_validate_data_table($data);
 }
 
-function cpp_pdf_filename(array $data): string
+function cpp_pdf_filename(array $data)
 {
-    $filename = preg_replace('/[^A-Za-z0-9_-]+/', '-', (string) ($data['cpp_no_spaj'] ?? 'template-codex'));
-    return trim((string) $filename, '-') ?: 'template-codex';
+    $filename = preg_replace('/[^A-Za-z0-9_-]+/', '-', (string) (isset($data['cpp_no_spaj']) ? $data['cpp_no_spaj'] : 'template-codex'));
+    $trimmed = trim((string) $filename, '-');
+    return $trimmed !== '' ? $trimmed : 'template-codex';
 }
 
-function cpp_html_value($value): string
+function cpp_html_value($value)
 {
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-function cpp_money_fields(): array
+function cpp_money_fields()
 {
-    return [
+    return array(
         'cpp_premi',
         'cpp_up',
         'cpp_mti_total',
         'hasil_investasi',
         'nilai_polis',
         'total_claim',
-    ];
+    );
 }
 
-function cpp_required_template_fields(string $html): array
+function cpp_required_template_fields($html)
 {
     if (preg_match_all('/\{([A-Za-z0-9_]+)\}/', $html, $matches) < 1) {
-        return [];
+        return array();
     }
 
     return array_values(array_unique($matches[1]));
 }
 
-function cpp_data_table_columns(): array
+function cpp_data_table_columns()
 {
-    return [
+    return array(
         'periode',
         'bulan',
         'jumlah_hari',
@@ -102,20 +114,20 @@ function cpp_data_table_columns(): array
         'saldo_investasi',
         'manfaat_investasi',
         'klaim',
-    ];
+    );
 }
 
-function cpp_data_table_money_columns(): array
+function cpp_data_table_money_columns()
 {
-    return [
+    return array(
         'mti_jumlah_hari',
         'saldo_investasi',
         'manfaat_investasi',
         'klaim',
-    ];
+    );
 }
 
-function cpp_parse_money_value($value): ?float
+function cpp_parse_money_value($value)
 {
     if (is_int($value) || is_float($value)) {
         return (float) $value;
@@ -126,7 +138,7 @@ function cpp_parse_money_value($value): ?float
         return null;
     }
 
-    $isNegative = str_contains($normalized, '-');
+    $isNegative = strpos($normalized, '-') !== false;
     $normalized = str_replace('-', '', $normalized);
 
     if ($normalized === '' || preg_match('/\d/', $normalized) !== 1) {
@@ -184,7 +196,7 @@ function cpp_parse_money_value($value): ?float
     return $isNegative ? -$number : $number;
 }
 
-function cpp_parse_percent_value($value): ?float
+function cpp_parse_percent_value($value)
 {
     if (is_int($value) || is_float($value)) {
         $number = (float) $value;
@@ -194,7 +206,7 @@ function cpp_parse_percent_value($value): ?float
             return null;
         }
 
-        if (str_contains($normalized, ',') && str_contains($normalized, '.')) {
+        if (strpos($normalized, ',') !== false && strpos($normalized, '.') !== false) {
             $lastComma = strrpos($normalized, ',');
             $lastDot = strrpos($normalized, '.');
             if ($lastComma > $lastDot) {
@@ -217,7 +229,7 @@ function cpp_parse_percent_value($value): ?float
     return $number > 1 ? $number / 100 : $number;
 }
 
-function cpp_parse_int_value($value): ?int
+function cpp_parse_int_value($value)
 {
     if (is_int($value)) {
         return $value;
@@ -235,9 +247,9 @@ function cpp_parse_int_value($value): ?int
     return (int) $normalized;
 }
 
-function cpp_indonesian_months(): array
+function cpp_indonesian_months()
 {
-    return [
+    return array(
         'januari' => 1,
         'jan' => 1,
         'februari' => 2,
@@ -265,10 +277,10 @@ function cpp_indonesian_months(): array
         'desember' => 12,
         'des' => 12,
         'dec' => 12,
-    ];
+    );
 }
 
-function cpp_parse_indonesian_date($value): DateTimeImmutable
+function cpp_parse_indonesian_date($value)
 {
     $date = trim((string) $value);
     if (preg_match('/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/', $date, $matches) !== 1) {
@@ -289,12 +301,12 @@ function cpp_parse_indonesian_date($value): DateTimeImmutable
         throw new InvalidArgumentException('Invalid cpp_tgl_asu date: ' . $date);
     }
 
-    return new DateTimeImmutable(sprintf('%04d-%02d-%02d', $year, $month, $day));
+    return new DateTime(sprintf('%04d-%02d-%02d', $year, $month, $day));
 }
 
-function cpp_format_indonesian_date(DateTimeImmutable $date): string
+function cpp_format_indonesian_date(DateTime $date)
 {
-    $months = [
+    $months = array(
         1 => 'Januari',
         2 => 'Februari',
         3 => 'Maret',
@@ -307,19 +319,22 @@ function cpp_format_indonesian_date(DateTimeImmutable $date): string
         10 => 'Oktober',
         11 => 'November',
         12 => 'Desember',
-    ];
+    );
 
     return (int) $date->format('j') . ' ' . $months[(int) $date->format('n')] . ' ' . $date->format('Y');
 }
 
-function cpp_enrich_derived_data(array $data): array
+function cpp_enrich_derived_data(array $data)
 {
     $currency = cpp_currency($data);
     $startDate = cpp_parse_indonesian_date($data['cpp_tgl_asu']);
     $premium = cpp_parse_money_value($data['cpp_premi']);
     $sumInsured = cpp_parse_money_value($data['cpp_up']);
     $investmentRate = cpp_parse_percent_value($data['cpp_mti_pa']);
-    $totalDays = cpp_parse_int_value($data['total_days'] ?? ($data['cpp_mti_hari'] ?? null));
+    $totalDaysInput = isset($data['total_days'])
+        ? $data['total_days']
+        : (isset($data['cpp_mti_hari']) ? $data['cpp_mti_hari'] : null);
+    $totalDays = cpp_parse_int_value($totalDaysInput);
 
     if ($premium === null) {
         throw new InvalidArgumentException('Invalid cpp_premi: value must contain a number.');
@@ -342,10 +357,15 @@ function cpp_enrich_derived_data(array $data): array
     $policyValue = $premium + $investmentResult;
     $totalClaim = $sumInsured + $policyValue;
 
+    $date129 = clone $startDate;
+    $date129->modify('+129 days');
+    $date130 = clone $startDate;
+    $date130->modify('+130 days');
+
     $data['total_days'] = $totalDays;
     $data['claim_elapsed_days'] = $claimElapsedDays;
-    $data['cpp_tgl_129_asu'] = cpp_format_indonesian_date($startDate->modify('+129 days'));
-    $data['cpp_tgl_130_asu'] = cpp_format_indonesian_date($startDate->modify('+130 days'));
+    $data['cpp_tgl_129_asu'] = cpp_format_indonesian_date($date129);
+    $data['cpp_tgl_130_asu'] = cpp_format_indonesian_date($date130);
     $data['hasil_investasi'] = $currency === 'USD' ? cpp_format_usd_currency($investmentResult) : $investmentResult;
     $data['nilai_polis'] = $currency === 'USD' ? cpp_format_usd_currency($policyValue) : $policyValue;
     $data['total_claim'] = $currency === 'USD' ? cpp_format_usd_currency($totalClaim) : $totalClaim;
@@ -358,7 +378,7 @@ function cpp_enrich_derived_data(array $data): array
     return $data;
 }
 
-function cpp_format_idr_currency($value): string
+function cpp_format_idr_currency($value)
 {
     $number = cpp_parse_money_value($value);
     if ($number === null) {
@@ -368,7 +388,7 @@ function cpp_format_idr_currency($value): string
     return 'Rp. ' . number_format((float) $number, 2, ',', '.');
 }
 
-function cpp_format_usd_currency($value): string
+function cpp_format_usd_currency($value)
 {
     $number = cpp_parse_money_value($value);
     if ($number === null) {
@@ -378,7 +398,7 @@ function cpp_format_usd_currency($value): string
     return 'USD ' . number_format((float) $number, 2, '.', ',');
 }
 
-function cpp_format_idr_amount($value): string
+function cpp_format_idr_amount($value)
 {
     $number = cpp_parse_money_value($value);
     if ($number === null) {
@@ -388,7 +408,7 @@ function cpp_format_idr_amount($value): string
     return number_format((float) $number, 2, ',', '.');
 }
 
-function cpp_format_usd_amount($value): string
+function cpp_format_usd_amount($value)
 {
     $number = cpp_parse_money_value($value);
     if ($number === null) {
@@ -398,7 +418,7 @@ function cpp_format_usd_amount($value): string
     return number_format((float) $number, 2, '.', ',');
 }
 
-function cpp_display_value(string $key, $value, string $currency): string
+function cpp_display_value($key, $value, $currency)
 {
     if ($key === 'cpp_mti_total') {
         if ($currency === 'IDR') {
@@ -417,7 +437,7 @@ function cpp_display_value(string $key, $value, string $currency): string
     return (string) $value;
 }
 
-function cpp_data_table_display_value(string $column, $value, string $currency): string
+function cpp_data_table_display_value($column, $value, $currency)
 {
     if (!in_array($column, cpp_data_table_money_columns(), true)) {
         return (string) $value;
@@ -434,7 +454,7 @@ function cpp_data_table_display_value(string $column, $value, string $currency):
     return (string) $value;
 }
 
-function cpp_validate_data_table(array $data): void
+function cpp_validate_data_table(array $data)
 {
     if (!array_key_exists('data_tabel', $data)) {
         return;
@@ -449,14 +469,14 @@ function cpp_validate_data_table(array $data): void
             throw new InvalidArgumentException('Invalid data_tabel row #' . ($index + 1) . ': value must be an object.');
         }
 
-        $missingColumns = [];
+        $missingColumns = array();
         foreach (cpp_data_table_columns() as $column) {
             if (!array_key_exists($column, $row) || (!is_scalar($row[$column]) && $row[$column] !== null)) {
                 $missingColumns[] = $column;
             }
         }
 
-        if ($missingColumns !== []) {
+        if ($missingColumns !== array()) {
             throw new InvalidArgumentException(
                 'Invalid data_tabel row #' . ($index + 1) . ': missing/invalid columns: ' . implode(', ', $missingColumns)
             );
@@ -464,9 +484,9 @@ function cpp_validate_data_table(array $data): void
     }
 }
 
-function cpp_validate_template_data(array $data, string $html): void
+function cpp_validate_template_data(array $data, $html)
 {
-    $missingFields = [];
+    $missingFields = array();
     foreach (cpp_required_template_fields($html) as $field) {
         if ($field === 'data_tabel') {
             if (!array_key_exists('data_tabel', $data) || !is_array($data['data_tabel'])) {
@@ -480,17 +500,17 @@ function cpp_validate_template_data(array $data, string $html): void
         }
     }
 
-    if ($missingFields !== []) {
+    if ($missingFields !== array()) {
         throw new InvalidArgumentException('Missing required template data fields: ' . implode(', ', $missingFields));
     }
 }
 
-function cpp_render_data_table_rows(array $rows, string $currency): string
+function cpp_render_data_table_rows(array $rows, $currency)
 {
-    $htmlRows = [];
+    $htmlRows = array();
 
     foreach ($rows as $row) {
-        $cells = [];
+        $cells = array();
         foreach (cpp_data_table_columns() as $column) {
             $cells[] = '<td><span class="highlight-yellow">' . cpp_html_value(cpp_data_table_display_value($column, $row[$column], $currency)) . '</span></td>';
         }
@@ -501,7 +521,7 @@ function cpp_render_data_table_rows(array $rows, string $currency): string
     return implode("\n", $htmlRows);
 }
 
-function cpp_render_html(array $data): string
+function cpp_render_html(array $data)
 {
     cpp_validate_data($data);
 
@@ -516,7 +536,7 @@ function cpp_render_html(array $data): string
     cpp_validate_data_table($data);
 
     $currency = cpp_currency($data);
-    $replacements = [];
+    $replacements = array();
     foreach ($data as $key => $value) {
         if (is_scalar($value) || $value === null) {
             $replacements['{' . $key . '}'] = cpp_html_value(cpp_display_value((string) $key, $value, $currency));
@@ -536,7 +556,7 @@ function cpp_render_html(array $data): string
     return $html;
 }
 
-function cpp_render_pdf(array $data): string
+function cpp_render_pdf(array $data)
 {
     $html = cpp_render_html($data);
 
@@ -554,27 +574,27 @@ function cpp_render_pdf(array $data): string
     return $dompdf->output();
 }
 
-function cpp_usd_required_fields(): array
+function cpp_usd_required_fields()
 {
     return cpp_required_fields();
 }
 
-function cpp_usd_validate_data(array $data): void
+function cpp_usd_validate_data(array $data)
 {
     cpp_validate_data($data);
 }
 
-function cpp_usd_pdf_filename(array $data): string
+function cpp_usd_pdf_filename(array $data)
 {
     return cpp_pdf_filename($data);
 }
 
-function cpp_usd_html_value($value): string
+function cpp_usd_html_value($value)
 {
     return cpp_html_value($value);
 }
 
-function cpp_usd_render_pdf(array $data): string
+function cpp_usd_render_pdf(array $data)
 {
     return cpp_render_pdf($data);
 }

@@ -1,17 +1,15 @@
 <?php
 require_once __DIR__ . '/cpp-pdf-generator.php';
 
-const SAMPLE_JSON_FILES = [
-    'IDR' => __DIR__ . '/SPAJ_JSON_IDR_20260623033241.json',
-    'USD' => __DIR__ . '/SPAJ_JSON_USD_20260623033241.json',
-];
-
-if (should_show_sample_buttons()) {
-    render_sample_buttons();
-    exit;
+function cpp_sample_json_files()
+{
+    return array(
+        'IDR' => __DIR__ . '/SPAJ_JSON_IDR_20260623033241.json',
+        'USD' => __DIR__ . '/SPAJ_JSON_USD_20260623033241.json',
+    );
 }
 
-function fail_response(int $statusCode, string $message): never
+function fail_response($statusCode, $message)
 {
     http_response_code($statusCode);
     header('Content-Type: text/plain; charset=UTF-8');
@@ -19,29 +17,7 @@ function fail_response(int $statusCode, string $message): never
     exit;
 }
 
-try {
-    $data = data_from_request();
-} catch (JsonException $exception) {
-    fail_response(400, 'Invalid JSON data: ' . $exception->getMessage());
-} catch (InvalidArgumentException $exception) {
-    fail_response(400, $exception->getMessage());
-} catch (RuntimeException $exception) {
-    fail_response(500, $exception->getMessage());
-}
-
-try {
-    $pdf = cpp_render_pdf($data);
-} catch (InvalidArgumentException $exception) {
-    fail_response(400, $exception->getMessage());
-} catch (RuntimeException $exception) {
-    fail_response(500, $exception->getMessage());
-}
-
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="' . cpp_pdf_filename($data) . '.pdf"');
-echo $pdf;
-
-function data_from_request(): array
+function data_from_request()
 {
     if (isset($_GET['sample']) && is_scalar($_GET['sample'])) {
         return data_from_sample((string) $_GET['sample']);
@@ -60,38 +36,43 @@ function data_from_request(): array
         return data_from_json((string) $_GET['data']);
     }
 
-    $data = [];
+    $data = array();
     foreach ($_GET as $key => $value) {
         if ($key !== 'data' && is_scalar($value)) {
             $data[$key] = $value;
         }
     }
 
-    if ($data === []) {
+    if ($data === array()) {
         throw new InvalidArgumentException('Request data kosong. Kirim JSON body, query ?data={...}, atau field cpp_* via query string.');
     }
 
     return $data;
 }
 
-function data_from_sample(string $sample): array
+function data_from_sample($sample)
 {
     $sample = strtoupper(trim($sample));
-    if (!array_key_exists($sample, SAMPLE_JSON_FILES)) {
+    $sampleFiles = cpp_sample_json_files();
+    if (!array_key_exists($sample, $sampleFiles)) {
         throw new InvalidArgumentException('Sample JSON tidak dikenal. Gunakan IDR atau USD.');
     }
 
-    $json = file_get_contents(SAMPLE_JSON_FILES[$sample]);
+    $json = file_get_contents($sampleFiles[$sample]);
     if ($json === false) {
-        throw new RuntimeException('Sample JSON tidak ditemukan: ' . basename(SAMPLE_JSON_FILES[$sample]));
+        throw new RuntimeException('Sample JSON tidak ditemukan: ' . basename($sampleFiles[$sample]));
     }
 
     return data_from_json($json);
 }
 
-function data_from_json(string $json): array
+function data_from_json($json)
 {
-    $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+    $data = json_decode($json, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new InvalidArgumentException('Invalid JSON data: ' . json_last_error_msg());
+    }
 
     if (!is_array($data)) {
         throw new InvalidArgumentException('Invalid JSON data: root value must be an object.');
@@ -100,13 +81,14 @@ function data_from_json(string $json): array
     return $data;
 }
 
-function should_show_sample_buttons(): bool
+function should_show_sample_buttons()
 {
     if (PHP_SAPI === 'cli') {
         return false;
     }
 
-    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
+    $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+    if ($requestMethod !== 'GET') {
         return false;
     }
 
@@ -126,7 +108,7 @@ function should_show_sample_buttons(): bool
     return !$hasJsonBody && !$hasQueryData && !$hasSampleRequest && !$hasFieldQuery;
 }
 
-function render_sample_buttons(): void
+function render_sample_buttons()
 {
     header('Content-Type: text/html; charset=UTF-8');
 ?>
@@ -184,3 +166,28 @@ function render_sample_buttons(): void
     </html>
 <?php
 }
+
+if (should_show_sample_buttons()) {
+    render_sample_buttons();
+    exit;
+}
+
+try {
+    $data = data_from_request();
+} catch (InvalidArgumentException $exception) {
+    fail_response(400, $exception->getMessage());
+} catch (RuntimeException $exception) {
+    fail_response(500, $exception->getMessage());
+}
+
+try {
+    $pdf = cpp_render_pdf($data);
+} catch (InvalidArgumentException $exception) {
+    fail_response(400, $exception->getMessage());
+} catch (RuntimeException $exception) {
+    fail_response(500, $exception->getMessage());
+}
+
+header('Content-Type: application/pdf');
+header('Content-Disposition: attachment; filename="' . cpp_pdf_filename($data) . '.pdf"');
+echo $pdf;

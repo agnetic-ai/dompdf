@@ -1,6 +1,17 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once __DIR__ . '/vendor/autoload.php';
+/**
+ * CPP PDF Helper (CodeIgniter 3.1.8)
+ *
+ * Engine generate PDF Capital Proteksi Plus (RIPLAY Personal) via DomPDF 0.8.3.
+ * Kompatibel PHP 5.4+. Dipanggil dari controller: $this->load->helper('cpp_pdf').
+ *
+ * Sumber data: array (hasil json_decode) berisi key cpp_* + data_tabel.
+ * Entry point utama: cpp_render_pdf($data) -> string biner PDF.
+ */
+
+require_once cpp_vendor_autoload_path();
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -11,12 +22,54 @@ if (!ini_get('date.timezone')) {
     date_default_timezone_set('Asia/Jakarta');
 }
 
+// Lokasi vendor/autoload.php. Di CI, helper ada di application/helpers/,
+// vendor & template ada di root project (dua level di atas).
+function cpp_project_root()
+{
+    return dirname(dirname(__DIR__));
+}
+
+function cpp_vendor_autoload_path()
+{
+    return dirname(dirname(__FILE__)) . '/../vendor/autoload.php';
+}
+
+function cpp_template_dir()
+{
+    return cpp_project_root() . '/template/riplay-personal';
+}
+
 function cpp_template_files()
 {
+    $dir = cpp_template_dir();
     return array(
-        'USD' => __DIR__ . '/USD-New.html',
-        'IDR' => __DIR__ . '/IDR-New.html',
+        'USD' => $dir . '/USD-New.html',
+        'IDR' => $dir . '/IDR-New.html',
     );
+}
+
+// Konversi nilai memory_limit ("128M", "1G", "512K", "-1") ke bytes.
+// Return -1 kalau unlimited.
+function cpp_memory_limit_bytes($value)
+{
+    $value = trim((string) $value);
+    if ($value === '' || $value === '-1') {
+        return -1;
+    }
+
+    $unit = strtolower(substr($value, -1));
+    $number = (int) $value;
+
+    switch ($unit) {
+        case 'g':
+            return $number * 1024 * 1024 * 1024;
+        case 'm':
+            return $number * 1024 * 1024;
+        case 'k':
+            return $number * 1024;
+        default:
+            return (int) $value;
+    }
 }
 
 function cpp_required_fields()
@@ -613,6 +666,13 @@ function cpp_render_html(array $data)
 
 function cpp_render_pdf(array $data)
 {
+    // Template CPP besar (USD ~140KB). DomPDF 0.8.3 rakus memori saat parsing
+    // CSS/DOM, default 128MB kadang kurang (USD peak ~200MB). Naikkan bila perlu.
+    $currentLimit = cpp_memory_limit_bytes(ini_get('memory_limit'));
+    if ($currentLimit !== -1 && $currentLimit < 268435456) {
+        @ini_set('memory_limit', '256M');
+    }
+
     $html = cpp_render_html($data);
 
     $options = new Options();

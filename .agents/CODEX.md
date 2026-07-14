@@ -39,10 +39,12 @@ _Proyek ini menggunakan pola arsitektur **monolith**._
 
 ```text
 ├── .agents/
-│   ├── guide-idr.md          # Penjelasan untuk currency IDR
 │   └── CODEX.md           # Panduan untuk CODEX
 ├── index.php              # Index awal
 ├── cpp-pdf-generator      # pdf generator, validasi parametar, parsing parameter
+├── CPP-IDR-New.html       # template IDR
+├── CPP-USD-New.html       # template USD
+├── SPAJ_JSON_IDR_20260623033241.json       # Contoh parameter JSON
 ├── README.md            # Panduan instalasi dan menjalankan proyek
 └── CODEX.md             # Dokumen standar ini
 ```

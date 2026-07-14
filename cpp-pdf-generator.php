@@ -14,8 +14,8 @@ if (!ini_get('date.timezone')) {
 function cpp_template_files()
 {
     return array(
-        'USD' => __DIR__ . '/CPP-USD-New.html',
-        'IDR' => __DIR__ . '/CPP-IDR-New.html',
+        'USD' => __DIR__ . '/USD-New.html',
+        'IDR' => __DIR__ . '/IDR-New.html',
     );
 }
 
@@ -505,21 +505,76 @@ function cpp_validate_template_data(array $data, $html)
     }
 }
 
+// function cpp_render_data_table_rows(array $rows, $currency)
+// {
+//     $htmlRows = array();
+
+//     foreach ($rows as $row) {
+//         $cells = array();
+//         foreach (cpp_data_table_columns() as $column) {
+//             $cells[] = '<td><span class="highlight-yellow">' . cpp_html_value(cpp_data_table_display_value($column, $row[$column], $currency)) . '</span></td>';
+//         }
+
+//         $htmlRows[] = '<tr>' . implode('', $cells) . '</tr>';
+//     }
+
+//     return implode("\n", $htmlRows);
+// }
+
+function cpp_data_table_column_styles()
+{
+    // Class + width tiap kolom, HARUS identik dengan <colgroup> di template.
+    // DomPDF 0.8.3 menentukan lebar kolom dari sel baris pertama <tbody>,
+    // jadi setiap <td> hasil generate WAJIB membawa width & class sendiri.
+    return array(
+        'periode'           => array('class' => 'benefit-col-period',           'width' => '5%'),
+        'bulan'             => array('class' => 'benefit-col-month',            'width' => '24%'),
+        'jumlah_hari'       => array('class' => 'benefit-col-days',             'width' => '5%'),
+        'mti_jumlah_hari'   => array('class' => 'benefit-col-daily-investment', 'width' => '16.5%'),
+        'saldo_investasi'   => array('class' => 'benefit-col-balance',          'width' => '16.5%'),
+        'manfaat_investasi' => array('class' => 'benefit-col-investment',       'width' => '16.5%'),
+        'klaim'             => array('class' => 'benefit-col-claim',            'width' => '16.5%'),
+    );
+}
+
 function cpp_render_data_table_rows(array $rows, $currency)
 {
     $htmlRows = array();
+    $columnStyles = cpp_data_table_column_styles();
 
     foreach ($rows as $row) {
         $cells = array();
         foreach (cpp_data_table_columns() as $column) {
-            $cells[] = '<td><span class="highlight-yellow">' . cpp_html_value(cpp_data_table_display_value($column, $row[$column], $currency)) . '</span></td>';
+            $style = isset($columnStyles[$column]) ? $columnStyles[$column] : array('class' => '', 'width' => '');
+            $class = $style['class'];
+            $width = $style['width'];
+
+            // Kolom uang dapat class tambahan agar rata kanan.
+            if (in_array($column, cpp_data_table_money_columns(), true)) {
+                $class = trim($class . ' benefit-money-cell');
+            }
+
+            $attrs = '';
+            if ($class !== '') {
+                $attrs .= ' class="' . cpp_html_value($class) . '"';
+            }
+            if ($width !== '') {
+                // width attribute + inline style: dua-duanya dibaca DomPDF 0.8.3.
+                $attrs .= ' width="' . cpp_html_value($width) . '" style="width: ' . cpp_html_value($width) . '"';
+            }
+
+            $cells[] = '<td' . $attrs . '><span class="highlight-yellow">'
+                . cpp_html_value(cpp_data_table_display_value($column, $row[$column], $currency))
+                . '</span></td>';
         }
 
         $htmlRows[] = '<tr>' . implode('', $cells) . '</tr>';
     }
 
-    return implode("\n", $htmlRows);
+    return implode("
+", $htmlRows);
 }
+
 
 function cpp_render_html(array $data)
 {

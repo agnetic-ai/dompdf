@@ -1,0 +1,2723 @@
+<!doctype html>
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ringkasan Informasi Produk dan/atau Layanan - DomPDF Ready</title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      @page {
+        size: A4;
+        margin: 28mm 10mm 12mm 10mm;
+      }
+
+      body {
+        font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+        font-size: 8.5pt;
+        line-height: 1.4;
+        color: #222;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+
+      /* ===== PENGATURAN PAGE BREAK (ANTI-SPASI KOSONG) ===== */
+      .section-block {
+        width: 100%;
+        border: 1px solid #000;
+        margin-bottom: 8px;
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+
+      table {
+        page-break-inside: auto;
+      }
+
+      tr {
+        page-break-inside: auto;
+        page-break-after: auto;
+      }
+
+      td,
+      th {
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+
+      /* ===== HEADER ===== */
+      .header-container {
+        position: fixed;
+        top: -17mm;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: #fff;
+        border-bottom: 2.5px solid #005691;
+        padding: 0 0 6px 0;
+        margin-bottom: 0;
+        z-index: 1000;
+      }
+      .header-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .header-table td {
+        vertical-align: middle;
+        padding: 0;
+        border: none !important;
+      }
+      .header-container .header-table {
+        margin: 0;
+      }
+      .logo-img {
+        height: 56px !important;
+        width: auto !important;
+        max-width: none !important;
+        display: block;
+      }
+      .doc-title {
+        text-align: right;
+        font-size: 10pt;
+        font-weight: bold;
+        color: #005691;
+        white-space: nowrap;
+      }
+
+      /* Header fixed agar muncul di setiap halaman DomPDF */
+
+      /* ===== SECTION HEADERS ===== */
+      .section-header {
+        background-color: #000;
+        text-align: center;
+        padding: 6px 8px;
+        width: 100%;
+      }
+      .section-header span {
+        color: #fff;
+        font-weight: bold;
+        font-size: 8.5pt;
+        font-family: "Calibri", Arial, sans-serif;
+      }
+      .section-subheader {
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 5px 6px;
+        border-bottom: 1px solid #000;
+      }
+      .section-subheader span {
+        font-weight: bold;
+        font-size: 8.5pt;
+        font-family: "Calibri", Arial, sans-serif;
+      }
+
+      .content-padding {
+        padding: 6px 8px;
+      }
+
+      /* ===== TABLES STYLING ===== */
+      .inner-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      .inner-table td {
+        padding: 3px 5px;
+        vertical-align: middle;
+        font-size: 8pt;
+        font-family: "Calibri", Arial, sans-serif;
+        word-wrap: break-word;
+      }
+
+      /* ===== DATA CELLS ===== */
+      td.data-cell {
+        background-color: #dbe5f1;
+      }
+
+      .highlight-yellow {
+        /* background-color: #ff0000; */
+        background-color: transparent;
+      }
+
+      .highlight-blue {
+        background-color: #c6d9f1;
+      }
+
+      /* ===== BORDERED TABLES ===== */
+      .bordered-table,
+      .benefits-table,
+      .syarat-table,
+      .pernyataan-table,
+      .ttd-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .bordered-table td,
+      .bordered-table th,
+      .benefits-table td,
+      .benefits-table th,
+      .syarat-table td,
+      .pernyataan-table td,
+      .pernyataan-table th,
+      .ttd-table td {
+        border: 1px solid #000;
+        padding: 5px 6px;
+        font-size: 8pt;
+        font-family: "Calibri", Arial, sans-serif;
+        vertical-align: top;
+        word-wrap: break-word;
+      }
+
+      .bordered-table th {
+        background-color: #eeece1;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .benefits-table .col-header {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        text-align: center;
+        font-size: 8.5pt;
+      }
+
+      .syarat-table .header-cell {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        font-size: 8.5pt;
+      }
+
+      .pernyataan-table .header-row th {
+        background-color: #eeece1;
+        text-align: center;
+        font-weight: bold;
+      }
+      .pernyataan-table .title-row td {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        text-align: center;
+        font-size: 8.5pt;
+      }
+
+      .ttd-table .ttd-header {
+        background-color: #eeece1;
+        text-align: center;
+      }
+      .ttd-spacer {
+        height: 55px;
+      }
+
+      /* ===== FOOTER TABLE ===== */
+      .footer-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      .footer-table td {
+        padding: 3px 5px;
+        font-size: 8pt;
+        font-family: "Calibri", Arial, sans-serif;
+        vertical-align: top;
+        word-wrap: break-word;
+        border: none !important;
+      }
+
+      /* ===== TEXT HELPERS ===== */
+      p {
+        margin: 2px 0;
+        text-indent: 0 !important;
+      }
+      p.justify {
+        text-align: justify;
+      }
+      p.center {
+        text-align: center;
+      }
+      p.bold {
+        font-weight: bold;
+      }
+      .fw-bold {
+        font-weight: bold;
+      }
+      .text-sm {
+        font-size: 8pt;
+      }
+      .spacer {
+        height: 2px;
+        line-height: 2px;
+        font-size: 0;
+      }
+
+      ol,
+      ul {
+        margin: 2px 0 2px 0;
+        padding-left: 18px;
+      }
+      li {
+        margin-bottom: 4px;
+        font-size: 8pt;
+        font-family: "Calibri", Arial, sans-serif;
+        text-align: justify;
+      }
+      a {
+        color: #0000ff;
+      }
+
+      /* ===== DOMPDF FIXES ===== */
+      html,
+      body {
+        width: 100%;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      .page-safe {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .two-col-wrap {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .two-col-wrap > tbody > tr > td {
+        vertical-align: top;
+        padding: 0;
+        border: none;
+      }
+
+      .gap-col {
+        width: 4%;
+        border: none !important;
+      }
+
+      .dompdf-box {
+        width: 100%;
+        border: 1px solid #000;
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+
+      .dompdf-box + .dompdf-box {
+        margin-top: 8px;
+      }
+
+      .box-title {
+        background: #f2f2f2;
+        border-bottom: 1px solid #000;
+        text-align: center;
+        font-weight: bold;
+        padding: 5px 6px;
+        font-size: 8.5pt;
+      }
+
+      .box-content {
+        padding: 6px 8px;
+      }
+
+      .section-block,
+      .benefits-table,
+      .syarat-table,
+      .pernyataan-table,
+      .bordered-table,
+      .ttd-table {
+        width: 100%;
+      }
+
+      .benefits-table {
+        border-spacing: 0;
+      }
+
+      .benefits-table tr,
+      .benefits-table td,
+      .benefits-table th {
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+
+      /* ===== EQUAL HEIGHT MANFAAT VS RISIKO+BIAYA =====
+         Border MANFAAT dipindah ke TD agar tinggi mengikuti total kolom kanan.
+         Ini lebih aman untuk DomPDF dibanding flex/min-height. */
+      .equal-height-wrap > tbody > tr > td {
+        vertical-align: top;
+      }
+
+      .equal-left-cell {
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .equal-left-cell .box-title {
+        border-bottom: 1px solid #000;
+      }
+
+      .equal-left-cell .box-content {
+        padding: 6px 8px;
+      }
+
+      .equal-right-cell .dompdf-box:first-child {
+        margin-top: 0;
+      }
+
+      /* ===== ANTI GAP KOSONG DOMPDF =====
+         Jangan pakai avoid secara global. Jika section panjang diberi avoid,
+         DomPDF akan memindahkan seluruh section ke halaman berikutnya dan
+         meninggalkan area kosong besar seperti pada screenshot. */
+      .section-block,
+      .section-block table,
+      .section-block tr,
+      .section-block td,
+      .section-block th {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .section-subheader,
+      .box-title {
+        page-break-after: avoid;
+      }
+
+      .syarat-table {
+        margin-bottom: 6px;
+      }
+
+      /* ===== FIX BORDER PUTUS DOMPDF ===== */
+      .simulasi-data,
+      .simulasi-illustration {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .simulasi-illustration {
+        margin-top: 8px;
+      }
+
+      .simulasi-illustration .content-padding {
+        padding-top: 6px;
+      }
+
+      .pernyataan-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .bordered-table {
+        border: 1px solid #000;
+      }
+
+      .bordered-table td,
+      .bordered-table th {
+        border: 1px solid #000 !important;
+      }
+
+      /* ===== FIX INFORMASI TAMBAHAN BORDER PUTUS ===== */
+      .info-block,
+      .info-block > .section-subheader,
+      .info-block > .content-padding,
+      .info-block ul,
+      .info-block ol,
+      .info-block li {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .info-block + .info-block {
+        margin-top: 8px;
+      }
+
+      .info-block .section-subheader {
+        page-break-after: avoid !important;
+      }
+
+      .info-block ul,
+      .info-block ol {
+        margin-top: 4px;
+        margin-bottom: 0;
+      }
+
+      .info-block li {
+        margin-bottom: 4px;
+      }
+
+      /* ===== FIX DISCLAIMER BORDER PUTUS ===== */
+      .disclaimer-block,
+      .disclaimer-block > .section-subheader,
+      .disclaimer-block > .content-padding,
+      .disclaimer-block ol,
+      .disclaimer-block li {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .disclaimer-block + .disclaimer-block {
+        margin-top: 8px;
+      }
+
+      .disclaimer-block .section-subheader {
+        page-break-after: avoid !important;
+      }
+
+      .disclaimer-block ol {
+        margin-top: 4px;
+        margin-bottom: 0;
+      }
+
+      .disclaimer-block li {
+        margin-bottom: 5px;
+      }
+
+      /* ===== FINAL DOMPDF SAFE OVERRIDES ===== */
+      .dompdf-no-break,
+      .page-safe,
+      .simulasi-data,
+      .simulasi-illustration,
+      .info-block,
+      .disclaimer-block {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .section-block {
+        overflow: visible !important;
+      }
+
+      .bordered-table,
+      .pernyataan-table,
+      .ttd-table {
+        border: 1px solid #000 !important;
+      }
+
+      .bordered-table td,
+      .bordered-table th,
+      .pernyataan-table td,
+      .pernyataan-table th,
+      .ttd-table td {
+        border: 1px solid #000 !important;
+      }
+
+      .highlight-blue,
+      .highlight-yellow {
+        display: inline;
+      }
+
+      /* ===== FIX GAP KOSONG SEBELUM SIMULASI =====
+         Isi dokumen tidak diubah. Rule ini hanya membuat blok SIMULASI
+         boleh mulai di sisa halaman sebelumnya, agar DomPDF tidak
+         memindahkan seluruh blok ke halaman baru dan meninggalkan gap besar. */
+      .section-block.simulasi-data,
+      .section-block.simulasi-data.page-safe {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .simulasi-data .section-subheader {
+        page-break-after: avoid !important;
+      }
+
+      .simulasi-data .content-padding,
+      .simulasi-data table,
+      .simulasi-data tbody,
+      .simulasi-data tr,
+      .simulasi-data td,
+      .simulasi-data th {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .simulasi-data .bordered-table tr,
+      .simulasi-data .inner-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* ===== FIX TABLE SIMULASI TERPOTONG =====
+         Table Jenis Pertanggungan dipindah ke halaman berikutnya.
+         Content table tidak diubah, hanya wrapper + page break. */
+      .simulasi-coverage,
+      .simulasi-coverage.page-safe {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: 0 !important;
+      }
+
+      .simulasi-coverage .content-padding,
+      .simulasi-coverage table,
+      .simulasi-coverage tbody,
+      .simulasi-coverage tr,
+      .simulasi-coverage td,
+      .simulasi-coverage th {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* ===== FIX PERNYATAAN PEMEGANG POLIS TERPOTONG =====
+         Content tidak diubah. Block Pernyataan dipaksa mulai di halaman baru
+         dan dijaga agar tabel + tanda tangan tidak terbelah di page break. */
+      .pernyataan-section,
+      .pernyataan-section .pernyataan-table,
+      .pernyataan-section .ttd-table,
+      .pernyataan-section .footer-table {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .pernyataan-section {
+        page-break-before: always !important;
+        break-before: page !important;
+        margin-top: 0 !important;
+      }
+
+      .pernyataan-section .pernyataan-table tr,
+      .pernyataan-section .pernyataan-table td,
+      .pernyataan-section .pernyataan-table th,
+      .pernyataan-section .ttd-table tr,
+      .pernyataan-section .ttd-table td {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* ===== FIX V2 UKURAN TABLE PERNYATAAN =====
+         DomPDF sering mengabaikan width kolom jika row awal table memakai colspan.
+         Jadi title dan intro dipisah dari table utama agar row pertama table
+         langsung berisi 4 kolom asli: No / Pemegang Polis / Ya / Tidak. */
+      .pernyataan-table-wrap {
+        width: 100%;
+        border: 1px solid #000;
+        margin-bottom: 10px;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .pernyataan-box-title {
+        background-color: #f2f2f2;
+        text-align: center;
+        font-weight: bold;
+        font-size: 8.5pt;
+        padding: 5px 6px;
+        border-bottom: 1px solid #000;
+      }
+
+      .pernyataan-box-intro {
+        font-weight: bold;
+        font-size: 8pt;
+        padding: 6px 8px;
+        border-bottom: 1px solid #000;
+      }
+
+      .pernyataan-table.pernyataan-fixed {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border: none !important;
+        margin-bottom: 0 !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed col.col-no {
+        width: 6% !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed col.col-pemegang {
+        width: 66% !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed col.col-ya,
+      .pernyataan-table.pernyataan-fixed col.col-tidak {
+        width: 14% !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed th,
+      .pernyataan-table.pernyataan-fixed td {
+        padding: 4px 6px !important;
+        line-height: 1.25 !important;
+        vertical-align: top !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed th:nth-child(1),
+      .pernyataan-table.pernyataan-fixed td:nth-child(1) {
+        text-align: center !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed th:nth-child(2),
+      .pernyataan-table.pernyataan-fixed td:nth-child(2) {
+        width: 66% !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed th:nth-child(3),
+      .pernyataan-table.pernyataan-fixed td:nth-child(3),
+      .pernyataan-table.pernyataan-fixed th:nth-child(4),
+      .pernyataan-table.pernyataan-fixed td:nth-child(4) {
+        width: 14% !important;
+      }
+
+      /* ===== FIX TTD TABLE 2 KOLOM TANPA GAP =====
+         Content tidak diubah. Kolom kosong tengah dihapus agar tanda tangan
+         Tenaga Pemasar dan Pemegang Polis masing-masing 50%. */
+      .ttd-table.ttd-two-col {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      .ttd-table.ttd-two-col td {
+        width: 50% !important;
+        border: 1px solid #000 !important;
+      }
+
+      .ttd-table.ttd-two-col .ttd-spacer {
+        height: 55px !important;
+      }
+
+      /* ===== FIX LOGO FOOTER =====
+         Menambahkan logo pada area footer bawah, tanpa mengubah teks konten. */
+      .footer-logo-img {
+        height: 36px !important;
+        width: auto !important;
+        display: block !important;
+        margin: 0 auto 6px auto !important;
+      }
+
+      .footer-table.footer-with-logo td {
+        vertical-align: middle !important;
+      }
+
+      .footer-table.footer-with-logo .footer-left {
+        text-align: center !important;
+        font-size: 7.5pt !important;
+        font-weight: bold !important;
+      }
+
+      .footer-table.footer-with-logo .footer-right {
+        text-align: right !important;
+        font-size: 7.5pt !important;
+        color: #000 !important;
+      }
+
+      /* ===== FIX PANJANG HEADER HITAM SECTION =====
+         DomPDF kadang menghitung width:100% + padding sebagai 100% + padding,
+         sehingga bar hitam lebih panjang dari border/garis header.
+         Content tidak diubah, hanya ukuran box header dibuat mengikuti parent. */
+      .section-block {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .section-header {
+        width: auto !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        display: block !important;
+        box-sizing: border-box !important;
+      }
+
+      .section-header span {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .content-padding {
+        width: auto !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .inner-table {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+      }
+
+      .header-container {
+        box-sizing: border-box !important;
+      }
+
+      /* ===== FIX TABLE MANFAAT ASURANSI ===== */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border: 1px solid #163a70 !important;
+        margin: 0 !important;
+        font-family: "Calibri", "Segoe UI", Arial, sans-serif !important;
+      }
+      .manfaat-asuransi-table th,
+      .manfaat-asuransi-table td {
+        border: 1px solid #163a70 !important;
+        padding: 3px 5px !important;
+        font-size: 8pt !important;
+        line-height: 1.2 !important;
+        vertical-align: middle !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+      .manfaat-asuransi-table th {
+        background: #1f4e79 !important;
+        color: #fff !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        padding: 6px 5px !important;
+      }
+      .manfaat-asuransi-table td {
+        background: transparent !important;
+        color: #000 !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 6% !important;
+        text-align: center !important;
+      }
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 22% !important;
+      }
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 5% !important;
+        text-align: center !important;
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 16% !important;
+        text-align: right !important;
+      }
+
+      .manfaat-asuransi-table .no-border {
+        border: none !important;
+        background: transparent !important;
+      }
+      .manfaat-asuransi-table .total-cell {
+        background: transparent !important;
+        font-weight: bold !important;
+        text-align: center !important;
+      }
+      .manfaat-asuransi-table .total-money {
+        text-align: right !important;
+      }
+
+      .manfaat-asuransi-table th {
+        word-break: normal !important;
+        word-wrap: normal !important;
+        overflow-wrap: normal !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4) {
+        font-size: 7.6pt !important;
+        line-height: 1.12 !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(4) {
+        white-space: nowrap !important;
+      }
+
+      /* ================================================================
+         FINAL PATCH KHUSUS DOMPDF 0.8.3
+         Tujuan:
+         1. Menghilangkan halaman kosong akibat container besar + avoid.
+         2. Membuat tabel manfaat dapat terpotong antarhalaman per baris.
+         3. Memperbaiki lebar tabel pernyataan.
+         4. Menjaga header tabel berulang ketika tabel pindah halaman.
+         ================================================================ */
+
+      /* Dompdf 0.8.3 sering membuat halaman kosong jika elemen besar diberi
+         page-break-inside: avoid. Jangan gunakan avoid pada wrapper besar. */
+      html,
+      body,
+      .section-block,
+      .page-safe,
+      .dompdf-no-break,
+      .simulasi-data,
+      .simulasi-coverage,
+      .simulasi-illustration,
+      .info-block,
+      .disclaimer-block,
+      .pernyataan-section,
+      .pernyataan-table-wrap,
+      .content-padding,
+      .box-content {
+        page-break-inside: auto !important;
+        overflow: visible !important;
+      }
+
+      /* Coverage tetap dimulai pada halaman baru, tetapi isinya boleh lanjut
+         ke halaman berikutnya. Ini menghilangkan dua halaman kosong sebelum
+         tabel simulasi. */
+      .simulasi-coverage,
+      .simulasi-coverage.page-safe {
+        page-break-before: always !important;
+        page-break-inside: auto !important;
+        margin-top: 0 !important;
+      }
+
+      .simulasi-coverage .content-padding,
+      .simulasi-coverage table,
+      .simulasi-coverage tbody,
+      .simulasi-coverage thead,
+      .simulasi-coverage tfoot {
+        page-break-inside: auto !important;
+      }
+
+      /* Tabel boleh terpotong antar halaman, tetapi satu baris tidak dibelah. */
+      .manfaat-asuransi-table {
+        page-break-inside: auto !important;
+      }
+
+      .manfaat-asuransi-table thead {
+        display: table-header-group !important;
+      }
+
+      .manfaat-asuransi-table tfoot {
+        display: table-row-group !important;
+      }
+
+      .manfaat-asuransi-table tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+      }
+
+      .manfaat-asuransi-table td,
+      .manfaat-asuransi-table th {
+        page-break-inside: avoid !important;
+      }
+
+      /* Informasi tambahan dan disclaimer boleh mengalir ke halaman berikutnya.
+         Hanya judul blok yang dijaga agar tidak tertinggal sendirian. */
+      .info-block,
+      .info-block > .content-padding,
+      .info-block ul,
+      .info-block ol,
+      .disclaimer-block,
+      .disclaimer-block > .content-padding,
+      .disclaimer-block ol {
+        page-break-inside: auto !important;
+      }
+
+      .info-block li,
+      .disclaimer-block li {
+        page-break-inside: avoid !important;
+      }
+
+      .info-block .section-subheader,
+      .disclaimer-block .section-subheader,
+      .section-subheader,
+      .box-title {
+        page-break-after: avoid !important;
+      }
+
+      /* Pernyataan mulai pada halaman baru, tetapi keseluruhan section tidak
+         dipaksa muat dalam satu halaman. Ini menghilangkan halaman kosong dan
+         halaman yang hanya berisi judul. */
+      .pernyataan-section {
+        page-break-before: always !important;
+        page-break-inside: auto !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-top: 0 !important;
+      }
+
+      .pernyataan-table-wrap {
+        border: none !important;
+        margin: 0 0 10px 0 !important;
+        page-break-inside: auto !important;
+      }
+
+      .pernyataan-box-title {
+        border: 1px solid #000 !important;
+        border-bottom: none !important;
+        page-break-after: avoid !important;
+      }
+
+      .pernyataan-box-intro {
+        border: 1px solid #000 !important;
+        border-bottom: none !important;
+        page-break-after: avoid !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border: 1px solid #000 !important;
+        page-break-inside: auto !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed thead {
+        display: table-header-group !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+      }
+
+      /* Gunakan class kolom langsung. Lebih stabil pada Dompdf 0.8.3 daripada
+         hanya mengandalkan :nth-child. */
+      .pernyataan-table.pernyataan-fixed .col-no-cell {
+        width: 6% !important;
+        text-align: center !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed .col-pemegang-cell {
+        width: 66% !important;
+        text-align: justify !important;
+      }
+
+      .pernyataan-table.pernyataan-fixed .col-ya-cell,
+      .pernyataan-table.pernyataan-fixed .col-tidak-cell {
+        width: 14% !important;
+      }
+
+      /* Tabel tanda tangan merupakan blok kecil sehingga aman dijaga utuh. */
+      .ttd-table.ttd-two-col {
+        page-break-inside: avoid !important;
+      }
+
+      /* Hindari whitespace dari elemen kosong dan line break berlebihan. */
+      .section-block:empty,
+      .content-padding:empty {
+        display: none !important;
+      }
+
+      /* ===== V3 FIX: GAP SEBELUM MANFAAT + LOGO HEADER =====
+         1) logo header diperbesar dan tidak ikut terkena shrink max-width
+         2) blok MANFAAT/RISIKO/BIAYA tidak lagi dipaksa sebagai no-break besar
+         3) spacing FITUR UTAMA diperkecil agar sisa halaman lebih lega */
+      .header-table td {
+        padding: 0 !important;
+      }
+
+      .equal-height-wrap,
+      .equal-height-wrap tbody,
+      .equal-height-wrap tr,
+      .equal-height-wrap td,
+      .equal-left-cell,
+      .equal-right-cell,
+      .equal-left-cell .box-content,
+      .equal-right-cell .dompdf-box,
+      .equal-right-cell .dompdf-box .box-content {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .equal-left-cell.page-safe,
+      .equal-right-cell .dompdf-box.page-safe {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      .equal-height-wrap > tbody > tr > td {
+        vertical-align: top !important;
+      }
+
+      .equal-left-cell .box-content ol {
+        margin-bottom: 0 !important;
+      }
+
+      .content-padding .inner-table td {
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+
+      .content-padding .inner-table td.spacer {
+        padding: 0 !important;
+        border: none !important;
+      }
+
+      /* ===== V4 FIX: HEADER TIDAK TERPOTONG + PENGECUALIAN FULL DI PAGE BARU ===== */
+      .pengecualian-section {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .pengecualian-section .section-subheader {
+        page-break-after: avoid !important;
+      }
+
+      .pengecualian-section .content-padding,
+      .pengecualian-section ol,
+      .pengecualian-section li {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* ===== V4 FIX: UKURAN KOLOM TABEL MANFAAT ASURANSI =====
+         Width dipasang ulang di bagian paling akhir karena Dompdf 0.8.3
+         lebih stabil jika colgroup, TH width, dan nth-child memakai nilai sama. */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+      }
+
+      .manfaat-asuransi-table th,
+      .manfaat-asuransi-table td {
+        padding: 4px 4px !important;
+        vertical-align: middle !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 4% !important;
+        text-align: center !important;
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 14% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 5% !important;
+        text-align: center !important;
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 19% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 18% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 18% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 22% !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(7) {
+        text-align: right !important;
+        white-space: nowrap !important;
+        font-size: 7.7pt !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table th:nth-child(3) {
+        font-size: 6.3pt !important;
+        line-height: 1.02 !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(3) {
+        font-size: 7.2pt !important;
+      }
+
+      /* ===== V6 FIX: LEBAR KOLOM MANFAAT STABIL DI DOMPDF 0.8.3 =====
+         Periode dan Jumlah Hari dibuat cukup lebar, Bulan mendapat ruang utama.
+         Angka nominal boleh membungkus agar tidak memaksa Dompdf mengecilkan
+         kolom Bulan. Total lebar: 7 + 22 + 9 + 16 + 15 + 15 + 16 = 100%. */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 7% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 22% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 9% !important;
+        text-align: center !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 16% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 15% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 15% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 16% !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(7) {
+        text-align: right !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        font-size: 7.1pt !important;
+        line-height: 1.15 !important;
+        padding-left: 3px !important;
+        padding-right: 3px !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table th:nth-child(3) {
+        font-size: 7pt !important;
+        line-height: 1.05 !important;
+      }
+
+      .manfaat-asuransi-table td:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(3) {
+        font-size: 7.5pt !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+      }
+
+      /* ===== V7 FIX: WIDTH LANGSUNG PADA CELL DINAMIS =====
+         Dompdf 0.8.3 menentukan lebar tabel dari cell pada baris pertama.
+         Karena data_tabel dibuat oleh PHP, setiap TD harus mendapat class,
+         atribut width, dan inline width yang sama dengan header/colgroup. */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      .manfaat-asuransi-table .benefit-col-period {
+        width: 5% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-month {
+        width: 23% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-days {
+        width: 6% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-daily-investment {
+        width: 16.5% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-balance {
+        width: 16.5% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-investment {
+        width: 16.5% !important;
+      }
+      .manfaat-asuransi-table .benefit-col-claim {
+        width: 16.5% !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-col-period,
+      .manfaat-asuransi-table td.benefit-col-days {
+        text-align: center !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        font-size: 7pt !important;
+        white-space: nowrap !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-col-month {
+        text-align: center !important;
+        white-space: normal !important;
+        word-wrap: normal !important;
+        line-height: 1.15 !important;
+        padding-left: 3px !important;
+        padding-right: 3px !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-money-cell {
+        text-align: right !important;
+        white-space: nowrap !important;
+        font-size: 6.8pt !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+      }
+
+      .manfaat-asuransi-table th.benefit-col-period,
+      .manfaat-asuransi-table th.benefit-col-days {
+        font-size: 6.2pt !important;
+        line-height: 1.02 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      /* ===== V8 FIX: PERIODE & JUMLAH HARI LEBIH KECIL =====
+         Penting untuk Dompdf 0.8.3: footer tidak memakai colspan karena colspan
+         dapat membuat engine menghitung ulang lebar seluruh kolom. */
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1),
+      .manfaat-asuransi-table .benefit-col-period {
+        width: 5% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2),
+      .manfaat-asuransi-table .benefit-col-month {
+        width: 23% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3),
+      .manfaat-asuransi-table .benefit-col-days {
+        width: 6% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4),
+      .manfaat-asuransi-table .benefit-col-daily-investment,
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table .benefit-col-balance,
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table .benefit-col-investment,
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7),
+      .manfaat-asuransi-table .benefit-col-claim {
+        width: 16.5% !important;
+      }
+
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1),
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      /* ===== V9 FINAL: PERIODE & JUMLAH HARI BENAR-BENAR DIPERKECIL =====
+         Gunakan satuan pt, bukan persen. Pada Dompdf 0.8.3, ukuran persen
+         sering dihitung ulang dari isi cell sehingga kolom pertama melebar. */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      .manfaat-asuransi-table .benefit-col-period,
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 28pt !important;
+        max-width: 28pt !important;
+      }
+
+      .manfaat-asuransi-table .benefit-col-month,
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 124pt !important;
+        max-width: 124pt !important;
+      }
+
+      .manfaat-asuransi-table .benefit-col-days,
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 34pt !important;
+        max-width: 34pt !important;
+      }
+
+      .manfaat-asuransi-table .benefit-col-daily-investment,
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4),
+      .manfaat-asuransi-table .benefit-col-balance,
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table .benefit-col-investment,
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table .benefit-col-claim,
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 88pt !important;
+        max-width: 88pt !important;
+      }
+
+      .manfaat-asuransi-table th.benefit-col-period {
+        font-size: 5.6pt !important;
+        line-height: 1 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table th.benefit-col-days {
+        font-size: 5.5pt !important;
+        line-height: 1 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        white-space: normal !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-col-period,
+      .manfaat-asuransi-table td.benefit-col-days {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+      }
+
+      /* ===== V10 FINAL - DOMPDF 0.8.3: KOLOM SESUAI ISI HEADER =====
+         Nilai total harus tepat 100% agar DomPDF tidak menghitung ulang
+         lebar kolom menjadi hampir sama rata. */
+      .manfaat-asuransi-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-period,
+      .manfaat-asuransi-table th.benefit-col-period,
+      .manfaat-asuransi-table td.benefit-col-period,
+      .manfaat-asuransi-table th:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(1) {
+        width: 6% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-month,
+      .manfaat-asuransi-table th.benefit-col-month,
+      .manfaat-asuransi-table td.benefit-col-month,
+      .manfaat-asuransi-table th:nth-child(2),
+      .manfaat-asuransi-table td:nth-child(2) {
+        width: 20% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-days,
+      .manfaat-asuransi-table th.benefit-col-days,
+      .manfaat-asuransi-table td.benefit-col-days,
+      .manfaat-asuransi-table th:nth-child(3),
+      .manfaat-asuransi-table td:nth-child(3) {
+        width: 7% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-daily-investment,
+      .manfaat-asuransi-table th.benefit-col-daily-investment,
+      .manfaat-asuransi-table td.benefit-col-daily-investment,
+      .manfaat-asuransi-table th:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(4) {
+        width: 17% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-balance,
+      .manfaat-asuransi-table th.benefit-col-balance,
+      .manfaat-asuransi-table td.benefit-col-balance,
+      .manfaat-asuransi-table th:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(5) {
+        width: 16% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-investment,
+      .manfaat-asuransi-table th.benefit-col-investment,
+      .manfaat-asuransi-table td.benefit-col-investment,
+      .manfaat-asuransi-table th:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(6) {
+        width: 16% !important;
+      }
+
+      .manfaat-asuransi-table col.benefit-col-claim,
+      .manfaat-asuransi-table th.benefit-col-claim,
+      .manfaat-asuransi-table td.benefit-col-claim,
+      .manfaat-asuransi-table th:nth-child(7),
+      .manfaat-asuransi-table td:nth-child(7) {
+        width: 18% !important;
+      }
+
+      .manfaat-asuransi-table th,
+      .manfaat-asuransi-table td {
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        padding: 4px 3px !important;
+        line-height: 1.15 !important;
+        vertical-align: middle !important;
+      }
+
+      .manfaat-asuransi-table th {
+        font-size: 7.2pt !important;
+        text-align: center !important;
+        white-space: normal !important;
+        word-wrap: normal !important;
+      }
+
+      .manfaat-asuransi-table th.benefit-col-period {
+        white-space: nowrap !important;
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+
+      .manfaat-asuransi-table th.benefit-col-days {
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-col-period,
+      .manfaat-asuransi-table td.benefit-col-days,
+      .manfaat-asuransi-table td:nth-child(1),
+      .manfaat-asuransi-table td:nth-child(3) {
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        font-size: 7.2pt !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-col-month,
+      .manfaat-asuransi-table td:nth-child(2) {
+        text-align: center !important;
+        white-space: normal !important;
+        word-wrap: normal !important;
+        font-size: 7.2pt !important;
+      }
+
+      .manfaat-asuransi-table td.benefit-money-cell,
+      .manfaat-asuransi-table td:nth-child(4),
+      .manfaat-asuransi-table td:nth-child(5),
+      .manfaat-asuransi-table td:nth-child(6),
+      .manfaat-asuransi-table td:nth-child(7) {
+        text-align: right !important;
+        white-space: nowrap !important;
+        word-wrap: normal !important;
+        font-size: 6.8pt !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+      }
+
+      /* ===== V11 FIX: INFORMASI TAMBAHAN MULAI DI HALAMAN BARU =====
+         Hanya blok INFORMASI TAMBAHAN pertama yang dipindahkan ke page berikutnya.
+         Blok lanjutan tetap mengalir normal dan tidak selalu membuat page baru. */
+      .info-section-start {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        margin-top: 0 !important;
+      }
+
+      .info-section-start .section-subheader {
+        page-break-after: avoid !important;
+        break-after: avoid-page !important;
+      }
+
+      .info-section-start .content-padding,
+      .info-section-start ul,
+      .info-section-start ol {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      /* ===== V14 FIX: INFORMASI TAMBAHAN (LANJUTAN) TIDAK TERLALU JAUH =====
+         Tidak dipaksa pindah halaman. Blok lanjutan mengikuti tepat setelah
+         INFORMASI TAMBAHAN. Jika ruang halaman tidak cukup, DomPDF akan
+         memindahkannya secara alami ke halaman berikutnya. */
+      .info-continuation-first {
+        page-break-before: auto !important;
+        break-before: auto !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        margin-top: 6px !important;
+      }
+
+      .info-continuation-first .section-subheader {
+        page-break-after: avoid !important;
+        break-after: avoid-page !important;
+      }
+
+      /* ===== V15: SECTION BREAK KHUSUS PROSEDUR PENGAJUAN KLAIM =====
+         Hanya section "2) Prosedur dan tata cara pengajuan Klaim" yang
+         dimulai pada halaman baru. Isi section tetap boleh mengalir ke
+         halaman berikutnya agar DomPDF 0.8.3 tidak membuat halaman kosong. */
+      .info-claim-section-break {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        margin-top: 0 !important;
+      }
+
+      .info-claim-section-break .section-subheader,
+      .info-claim-section-break .claim-section-title {
+        page-break-after: avoid !important;
+        break-after: avoid-page !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== HEADER ===== -->
+    <div class="header-container">
+      <table class="header-table">
+        <tr>
+          <td style="width: 50%">
+            <img
+              alt="Logo PT Capital Life Indonesia"
+              class="logo-img"
+              src="data:image/jpeg;base64,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"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- ===== RINGKASAN PRODUK ===== -->
+    <div class="section-block">
+      <div class="section-header">
+        <span>RINGKASAN INFORMASI PRODUK DAN/ATAU LAYANAN VERSI PERSONAL</span>
+      </div>
+      <div class="content-padding">
+        <table class="inner-table">
+          <tr>
+            <td class="fw-bold" style="width: 18%">Nama penerbit</td>
+            <td style="width: 2%">:</td>
+            <td style="width: 22%">PT Capital Life Indonesia</td>
+            <td class="fw-bold" style="width: 18%">Jenis produk</td>
+            <td style="width: 2%">:</td>
+            <td style="width: 38%">Dwiguna Kombinasi</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Nama produk</td>
+            <td>:</td>
+            <td>Capital Proteksi Plus</td>
+            <td class="fw-bold">Deskripsi produk</td>
+            <td>:</td>
+            <td style="vertical-align: top; padding-top: 4px">
+              Produk asuransi jiwa yang memberikan perlindungan asuransi atas
+              risiko meninggal dunia karena kecelakaan yang memberikan manfaat
+              Uang Pertanggungan dan manfaat investasi.
+            </td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Mata uang</td>
+            <td>:</td>
+            <td><span>Rupiah</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- ===== FITUR UTAMA ===== -->
+    <div class="section-block">
+      <div class="section-subheader"><span>FITUR UTAMA</span></div>
+      <div class="content-padding">
+        <table class="inner-table">
+          <tr>
+            <td style="width: 30%">Nama Tertanggung</td>
+            <td style="width: 3%">:</td>
+            <td class="data-cell">
+              <span class="highlight-yellow">{cpp_nama_tt}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="spacer" colspan="3"></td>
+          </tr>
+          <tr>
+            <td>Usia masuk Tertanggung</td>
+            <td>:</td>
+            <td class="data-cell">
+              <span class="highlight-yellow">{cpp_age}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="spacer" colspan="3"></td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top; padding-top: 3px">
+              Uang Pertanggungan
+            </td>
+            <td style="vertical-align: top; padding-top: 3px">:</td>
+            <td class="data-cell">
+              <span class="highlight-yellow">{cpp_up}</span><br />
+              <span style="font-size: 7.5pt"
+                >(dalam hal Tertanggung dilindungi lebih dari satu Polis Capital
+                Proteksi Plus, maka Uang Pertanggungan yang dapat dibayarkan
+                oleh Penanggung maksimum sebesar Rp. 2.000.000.000,- (dua miliar
+                rupiah)).</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td class="spacer" colspan="3"></td>
+          </tr>
+          <tr>
+            <td>Premi</td>
+            <td>:</td>
+            <td class="data-cell">
+              <span class="highlight-yellow">{cpp_premi}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="spacer" colspan="3"></td>
+          </tr>
+          <tr>
+            <td>Masa pertanggungan</td>
+            <td>:</td>
+            <td class="data-cell">1 tahun</td>
+          </tr>
+          <tr>
+            <td class="spacer" colspan="3"></td>
+          </tr>
+          <tr>
+            <td>Masa pembayaran premi</td>
+            <td>:</td>
+            <td class="data-cell">Sekaligus</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- ===== MANFAAT, RISIKO & BIAYA - DOMPDF SAFE ===== -->
+    <div class="section-block" style="border: none">
+      <table class="two-col-wrap equal-height-wrap">
+        <tr>
+          <td class="equal-left-cell page-safe" style="width: 48%">
+            <div class="box-title">MANFAAT</div>
+            <div class="box-content">
+              <p class="justify text-sm">
+                Produk ini memberikan Manfaat Asuransi yang dapat dijelaskan
+                sebagai berikut :
+              </p>
+              <ol style="font-size: 8pt; padding-left: 14px; margin-top: 4px">
+                <li>
+                  Apabila Tertanggung meninggal dunia dalam masa pertanggungan
+                  yang diakibatkan karena Kecelakaan dan pertanggungan masih
+                  berlaku, maka Penanggung akan membayarkan Manfaat Asuransi
+                  sebesar 100% (seratus persen) Uang Pertanggungan ditambah
+                  Saldo Investasi yang terbentuk dan selanjutnya pertanggungan
+                  berakhir.
+                </li>
+                <li>
+                  Apabila Tertanggung meninggal dunia dalam masa pertanggungan
+                  yang diakibatkan karena Penyakit (bukan Karena Kecelakaan) dan
+                  pertanggungan masih berlaku, maka Penanggung akan membayarkan
+                  Manfaat Asuransi sebesar Saldo Investasi yang terbentuk dan
+                  selanjutnya pertanggungan berakhir.
+                </li>
+                <li>
+                  Apabila Tertanggung masih hidup hingga akhir masa
+                  pertanggungan, maka Penanggung akan membayarkan Manfaat
+                  Asuransi berupa Saldo Investasi yang terbentuk dan selanjutnya
+                  pertanggungan berakhir.
+                </li>
+                <li>
+                  Apabila Tertanggung masih hidup selama masa pertanggungan,
+                  maka Penanggung akan membayarkan Manfaat Asuransi berupa
+                  manfaat investasi sesuai dengan pilihan periode pembayaran
+                  garansi investasi yang dipilih oleh Pemegang Polis.
+                </li>
+                <li>
+                  Meninggal dunianya Tertanggung sebagaimana dimaksud pada poin
+                  1 bukan sebagai akibat hal-hal yang tidak dijamin atau
+                  dikecualikan dalam Polis.
+                </li>
+              </ol>
+            </div>
+          </td>
+          <td class="gap-col"> </td>
+          <td class="equal-right-cell" style="width: 48%">
+            <div class="dompdf-box page-safe">
+              <div class="box-title">RISIKO</div>
+              <div class="box-content">
+                <p class="text-md">
+                  1) Risiko penolakan pengajuan pertanggungan
+                </p>
+                <p class="justify text-sm">
+                  Risiko dimana pengajuan pertanggungan tidak disetujui oleh
+                  Penanggung dikarenakan syarat-syarat pertanggungan tidak
+                  terpenuhi.
+                </p>
+                <p class="text-md" style="margin-top: 10px">
+                  2) Risiko gagal klaim
+                </p>
+                <p class="justify text-sm">
+                  Risiko dimana Manfaat Asuransi berupa Uang Pertanggungan tidak
+                  dapat dibayarkan apabila klaim yang diajukan tidak memenuhi
+                  ketentuan Polis, termasuk namun tidak terbatas pada kondisi
+                  yang termasuk dalam pengecualian Polis dan/atau kejadian yang
+                  terjadi dalam masa tunggu.
+                </p>
+              </div>
+            </div>
+            <div class="dompdf-box page-safe">
+              <div class="box-title">BIAYA</div>
+              <div class="box-content">
+                <p class="text-md">1) Biaya Dasar</p>
+                <p class="justify text-sm" style="margin-bottom: 6px">
+                  Premi yang dibayar oleh Pemegang Polis sudah termasuk
+                  biaya-biaya yang dibebankan ke Pemegang Polis, seperti biaya
+                  pertanggungan, biaya tenaga pemasaran, biaya administrasi dan
+                  pemeliharaan Polis (termasuk biaya pelayanan terhadap
+                  nasabah), sehingga tidak ada biaya-biaya dasar lainnya yang
+                  dikenakan kepada Pemegang Polis.
+                </p>
+                <p class="text-md">2) Biaya Penarikan Saldo Investasi</p>
+                <p class="justify text-sm" style="margin-bottom: 6px">
+                  Biaya yang dikenakan kepada Pemegang Polis dalam hal Pemegang
+                  Polis melakukan penarikan seluruh Saldo Investasinya sebelum
+                  Tanggal Jatuh Tempo Masa Garansi Investasi sebesar
+                  <span class="highlight-yellow">________________________</span>
+                  dari Premi yang dibayarkan.
+                </p>
+                <p class="text-md">
+                  3) Biaya Pembatalan Polis dalam Masa Pemahaman Polis
+                </p>
+                <p class="justify text-sm">
+                  Biaya yang dikenakan kepada Pemegang Polis dalam hal Pemegang
+                  Polis melakukan pembatalan Polis dalam Masa Pemahaman Polis
+                  sebesar
+                  <span class="highlight-yellow">________________________</span>
+                </p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- ===== PENGECUALIAN ===== -->
+    <div class="section-block pengecualian-section">
+      <div class="section-subheader"><span>PENGECUALIAN</span></div>
+      <div class="content-padding">
+        <p class="justify text-sm fw-bold">
+          Manfaat Asuransi berupa Uang Pertanggungan tidak dapat dibayarkan
+          apabila Tertanggung meninggal dunia sebagai akibat dari hal-hal
+          tersebut dibawah ini :
+        </p>
+        <ol style="font-size: 8pt">
+          <li class="fw-bold">Karena suatu Penyakit; atau</li>
+          <li class="fw-bold">
+            Tertanggung menggunakan obat-obatan dan/atau zat-zat terlarang,
+            meminum alkohol, atau keracunan yang disebabkan narkotika, termasuk
+            obat-obatan dalam arti yang seluas-luasnya terkecuali zat-zat
+            dan/atau obat-obatan dimaksud dipergunakan atas Petunjuk Dokter dan
+            tidak terkait dengan upaya perawatan kecanduan obat; atau
+          </li>
+          <li class="fw-bold">
+            Perbuatan bunuh diri atau Pelaksanaan Hukuman mati berdasarkan
+            Keputusan Pengadilan yang telah memiliki kekuatan hukum yang tetap,
+            terkecuali apabila peristiwa tersebut terjadi setelah 2 (dua) tahun
+            sejak tanggal penerbitan Polis atau Perubahan atau Pemulihan
+            Pertanggungan (mana yang terjadi lebih akhir); atau
+          </li>
+          <li class="fw-bold">
+            Terjangkit dan/atau terinfeksi virus Acquired Immune Deficiency
+            Syndrome (AIDS) dan/atau terinfeksi Human Immundeficiency Virus
+            (HIV), terkecuali apabila peristiwa tersebut terjadi setelah 2 (dua)
+            tahun sejak tanggal penerbitan Polis atau Perubahan atau Pemulihan
+            Pertanggungan (mana yang terjadi lebih akhir); atau
+          </li>
+          <li class="fw-bold">
+            Kehamilan yang sudah ada pada sebelum penutupan polis dan kehamilan
+            tersebut tidak diinformasikan sebelumnya; atau
+          </li>
+          <li class="fw-bold">
+            Kejadian kecelakaan penerbangan, terkecuali Tertanggung tercatat
+            sebagai penumpang pesawat terbang yang memiliki ijin resmi sebagai
+            pesawat komersial pengangkut penumpang yang dikeluarkan oleh Pejabat
+            yang berwenang untuk itu; atau
+          </li>
+          <li class="fw-bold">
+            Berpartisipasi dalam kegiatan olah raga yang berbahaya seperti olah
+            raga terjun payung, parasailing, hiking, panjat tebing, selancar,
+            olah raga bermotor, serta olah raga berbahaya lainnya; atau
+          </li>
+          <li class="fw-bold">
+            Menggunakan transportasi yang membawa bahan peledak atau bahan
+            berbahaya lainnya;
+          </li>
+          <li class="fw-bold">
+            Terlibat dan/atau turut terlibat kedalam peristiwa tindak Pidana;
+            atau
+          </li>
+          <li class="fw-bold">
+            Terlibat dalam perkelahian, kecuali jika sebagai orang yang
+            bertindak mempertahankan diri; atau
+          </li>
+          <li class="fw-bold">
+            Tindak Pidana asuransi dalam bentuk Pembunuhan yang dilakukan oleh
+            orang-orang yang memiliki dan/atau turut memiliki kepentingan atas
+            Klaim Pembayaran manfaat asuransi.
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- ===== PERSYARATAN DAN TATA CARA ===== -->
+    <div class="section-block" style="border: none">
+      <table class="syarat-table">
+        <tr>
+          <td class="header-cell" style="width: 48%">
+            Anda harus melengkapi persyaratan berikut ini, yaitu:
+          </td>
+          <td style="width: 4%; border: none; background: #fff"></td>
+          <td class="header-cell" style="width: 48%">
+            Anda dapat menyampaikan pertanyaan dan pengaduan melalui:
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top">
+            <ol style="font-size: 8pt; margin-top: 4px">
+              <li>Usia calon pemegang polis minimal 18 tahun</li>
+              <li>
+                Usia calon tertanggung minimal 18 tahun dan maksimal 69 tahun
+              </li>
+              <li>Mengisi dan menandatangani surat permohonan asuransi</li>
+              <li>
+                Menyampaikan fotokopi KTP/Paspor/SIM untuk WNI dan KITAS/KITAP
+                untuk WNA, dan NPWP
+              </li>
+              <li>Melakukan pemeriksaan kesehatan (apabila diperlukan)</li>
+            </ol>
+          </td>
+          <td style="border: none; background: #fff"></td>
+          <td style="vertical-align: top">
+            <br />
+            <br />
+            <p class="text-sm">
+              Customer care :
+              <a href="mailto:care@capitallife.co.id">care@capitallife.co.id</a>
+            </p>
+            <p class="text-sm">Telepon             : (021) 22773897</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- ===== SIMULASI ===== -->
+    <div class="section-block simulasi-data page-safe">
+      <div class="section-subheader"><span>SIMULASI</span></div>
+      <div class="content-padding">
+        <table class="inner-table" style="margin-bottom: 8px">
+          <tr>
+            <td style="width: 20%">Nama Pemegang Polis</td>
+            <td style="width: 2%">:</td>
+            <td style="width: 22%">
+              <span class="highlight-yellow">{cpp_nama_pp}</span>
+            </td>
+            <td style="width: 20%">Masa Pembayaran Premi</td>
+            <td style="width: 2%">:</td>
+            <td>Sekaligus</td>
+          </tr>
+          <tr>
+            <td>Nama Tertanggung</td>
+            <td>:</td>
+            <td><span class="highlight-yellow">{cpp_nama_tt}</span></td>
+            <td>Metode Pembayaran Premi</td>
+            <td>:</td>
+            <td>Sekaligus</td>
+          </tr>
+          <tr>
+            <td>Tanggal Lahir Tertanggung</td>
+            <td>:</td>
+            <td>
+              <span class="highlight-yellow">{cpp_dbo}</span>
+            </td>
+            <td>Tanggal Mulai Pertanggungan</td>
+            <td>:</td>
+            <td>
+              <span class="highlight-yellow">{cpp_tgl_asu}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Usia Tertanggung</td>
+            <td>:</td>
+            <td><span class="highlight-yellow">{cpp_age}</span></td>
+            <td>Tanggal Berakhir Pertanggungan</td>
+            <td>:</td>
+            <td>
+              <span class="highlight-yellow">{cpp_akhir_asu}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Mata Uang</td>
+            <td></td>
+            <td><span class="highlight-yellow">Rupiah</span></td>
+            <td>Masa Garansi Investasi</td>
+            <td>:</td>
+            <td><span class="highlight-yellow">{cpp_periode}</span></td>
+          </tr>
+          <tr>
+            <td>Premi</td>
+            <td>:</td>
+            <td><span class="highlight-yellow">{cpp_premi}</span></td>
+            <td>Tingkat Garansi Investasi</td>
+            <td>:</td>
+            <td>
+              <span class="highlight-yellow">{cpp_mti_pa} per tahun</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section-block simulasi-coverage page-safe">
+      <div class="content-padding">
+        <table class="bordered-table" style="margin-bottom: 0">
+          <tr>
+            <th style="width: 25%">Jenis Pertanggungan</th>
+            <th style="width: 25%">Masa Pertanggungan</th>
+            <th style="width: 25%">Uang Pertanggungan</th>
+            <th style="width: 25%">Premi</th>
+          </tr>
+          <tr>
+            <td class="fw-bold" colspan="4">Dasar</td>
+          </tr>
+          <tr>
+            <td><span class="highlight-yellow">Capital Proteksi Plus</span></td>
+            <td><span class="highlight-yellow">1 tahun</span></td>
+            <td><span class="highlight-yellow">{cpp_up}</span></td>
+            <td><span class="highlight-yellow">{cpp_premi}</span></td>
+          </tr>
+          <tr>
+            <td colspan="4"> </td>
+          </tr>
+          <tr>
+            <td class="fw-bold" colspan="3">Total Premi yang dibayarkan</td>
+            <td class="fw-bold">
+              <span class="highlight-yellow">{cpp_premi}</span>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <hr />
+        <br />
+        <p class="benefit-table-title fw-bold">Tabel Manfaat Asuransi</p>
+        <table
+          class="manfaat-asuransi-table"
+          width="100%"
+          cellspacing="0"
+          cellpadding="0"
+        >
+          <colgroup>
+            <col
+              class="benefit-col-period"
+              width="6%"
+              style="width: 6% !important"
+            />
+            <col
+              class="benefit-col-month"
+              width="20%"
+              style="width: 20% !important"
+            />
+            <col
+              class="benefit-col-days"
+              width="7%"
+              style="width: 7% !important"
+            />
+            <col
+              class="benefit-col-daily-investment"
+              width="17%"
+              style="width: 17% !important"
+            />
+            <col
+              class="benefit-col-balance"
+              width="16%"
+              style="width: 16% !important"
+            />
+            <col
+              class="benefit-col-investment"
+              width="16%"
+              style="width: 16% !important"
+            />
+            <col
+              class="benefit-col-claim"
+              width="18%"
+              style="width: 18% !important"
+            />
+          </colgroup>
+          <thead>
+            <tr>
+              <th
+                class="benefit-col-period"
+                width="6%"
+                style="width: 6% !important"
+              >
+                Periode
+              </th>
+              <th
+                class="benefit-col-month"
+                width="20%"
+                style="width: 20% !important"
+              >
+                Bulan
+              </th>
+              <th
+                class="benefit-col-days"
+                width="7%"
+                style="width: 7% !important"
+              >
+                Jumlah<br />Hari
+              </th>
+              <th
+                class="benefit-col-daily-investment"
+                width="17%"
+                style="width: 17% !important"
+              >
+                Manfaat Investasi<br /><span style="font-size: 7.1pt"
+                  >(sesuai jumlah hari)</span
+                >
+              </th>
+              <th
+                class="benefit-col-balance"
+                width="16%"
+                style="width: 16% !important"
+              >
+                Saldo Investasi
+              </th>
+              <th
+                class="benefit-col-investment"
+                width="16%"
+                style="width: 16% !important"
+              >
+                Manfaat Investasi
+              </th>
+              <th
+                class="benefit-col-claim"
+                width="18%"
+                style="width: 18% !important"
+              >
+                Klaim Meninggal<br />Karena Kecelakaan
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data_tabel}
+          </tbody>
+          <tfoot>
+            <tr class="benefit-total-row">
+              <td class="benefit-col-period no-border"></td>
+              <td class="benefit-col-month no-border"></td>
+              <td class="benefit-col-days total-cell">
+                <span class="highlight-yellow">{total_days}</span>
+              </td>
+              <td class="benefit-col-daily-investment no-border"></td>
+              <td class="benefit-col-balance no-border"></td>
+              <td class="benefit-col-investment total-cell total-money">
+                <span class="highlight-yellow">{cpp_mti_total}</span>
+              </td>
+              <td class="benefit-col-claim no-border"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="section-block simulasi-illustration page-safe">
+      <div class="content-padding">
+        <p class="fw-bold text-sm" style="margin-bottom: 3px">
+          Ilustrasi Kasus:
+        </p>
+        <p class="justify text-sm">
+          <span class="highlight-blue">{cpp_nama_tt}</span> meninggal dunia pada
+          tanggal <span class="highlight-blue">{cpp_tgl_129_asu}</span> karena
+          Kecelakaan akibat melakukan aktivitas penerbangan sebagai penumpang
+          pesawat udara yang diselenggarakan oleh perusahaan penerbangan
+          komersial resmi yang mempunyai jadwal penerbangan tetap dan teratur
+          dan yang sedang menjalani rute penerbangan yang telah ditetapkan dalam
+          jadwal penerbangannya.
+        </p>
+        <p class="justify text-sm">
+          Ahli waris dari <span class="highlight-blue">{cpp_nama_tt}</span> yang
+          ditunjuk sebagai Penerima Manfaat mengajukan Klaim kepada Penanggung
+          pada tanggal <span class="highlight-blue">{cpp_tgl_130_asu}</span>.
+        </p>
+        <p class="justify text-sm">Bagaimana pengajuan Klaimnya..?</p>
+        <p class="fw-bold text-sm" style="margin-top: 5px">Analisa Klaim :</p>
+        <p class="justify text-sm">
+          Penanggung akan membayarkan Manfaat Asuransi sebesar 100% Uang
+          Pertanggungan, yakni sebesar
+          <span class="highlight-blue">{cpp_up},-</span> ditambah Nilai Polis
+          yang terbentuk pada tanggal pengajuan Klaim, yakni
+          <span class="highlight-blue">{cpp_tgl_130_asu}</span> dan selanjutnya
+          pertanggungan berakhir.
+        </p>
+        <p class="text-sm">Perhitungan Nilai Polis dimaksud adalah sbb :</p>
+        <p class="text-sm">
+          Hasil Investasi pada tanggal pengajuan Klaim sebesar :
+          <span class="highlight-blue">{hasil_investasi}</span>,- dihitung dari
+          :
+        </p>
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue"> {cpp_premi},-</span> x
+          <span class="highlight-blue">{cpp_mti_pa} </span>x (<span
+            class="highlight-blue tgl-format"
+            >{claim_elapsed_days}</span
+          >
+          / {total_days})
+        </p>
+        <p class="text-sm" style="margin-top: 5px">
+          Sehingga Nilai Polis yang dibayarkan adalah sebesar :
+          <span class="highlight-blue">{nilai_polis}</span>,- dihitung dari :
+        </p>
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue">{cpp_premi},-</span> +
+          <span class="highlight-blue">{hasil_investasi},-</span>
+        </p>
+        <p class="text-sm" style="margin-top: 5px">
+          Dengan demikian total Manfaat Asuransi yang diterima Penerima Manfaat
+          adalah sebesar :
+          <span class="highlight-blue">{total_claim}</span>,- dihitung dari:
+        </p>
+        <p
+          class="text-sm highlight-blue"
+          style="display: inline-block; padding: 2px 5px"
+        >
+          <span class="highlight-blue">{cpp_up},-</span>+
+          <span class="highlight-blue">{nilai_polis},-</span>
+        </p>
+      </div>
+    </div>
+    <!-- ===== INFORMASI TAMBAHAN ===== -->
+    <div class="section-block info-block info-section-start page-safe">
+      <div class="section-subheader"><span>INFORMASI TAMBAHAN</span></div>
+      <div class="content-padding">
+        <p class="fw-bold text-sm">1) Definisi-definisi Penting:</p>
+        <ul style="font-size: 8pt; list-style-type: disc; padding-left: 18px">
+          <li>
+            <strong>Penanggung</strong> adalah PT Capital Life Indonesia, suatu
+            perusahaan penyedia jasa asuransi jiwa yang berizin dan diawasi oleh
+            Otoritas Jasa Keuangan (OJK).
+          </li>
+          <li>
+            <strong>Pemegang Polis</strong> adalah pihak yang mengadakan kontrak
+            asuransi dengan Penanggung.
+          </li>
+          <li>
+            <strong>Tertanggung</strong> adalah pihak yang atas jiwanya diadakan
+            kontrak asuransi jiwa.
+          </li>
+          <li>
+            <strong>Surat Permohonan Asuransi (SPAJ)</strong> adalah permohonan
+            tertulis/formulir untuk mengadakan perjanjian asuransi yang memuat
+            keterangan atau pernyataan yang dibuat oleh Calon Pemegang Polis dan
+            merupakan bagian yang tidak terpisahkan dari Polis.
+          </li>
+          <li>
+            <strong>Polis</strong> adalah Dokumen perjanjian asuransi jiwa
+            antara Penanggung dengan Pemegang Polis, termasuk tetapi tidak
+            terbatas pada Ketentuan Umum Polis, dan atau Ketentuan Tambahan, dan
+            atau Ketentuan Khusus, dan atau setiap Perubahan dan atau setiap
+            lampiran, dan atau perubahan lain yang terdapat di dalamnya serta
+            formulir-formulir dan atau dokumen lain yang terkait dalam proses
+            permohonan asuransi yang secara keseluruhan merupakan satu kesatuan
+            dan menjadi bagian yang tidak terpisahkan dari Polis.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-block info-block info-continuation-first page-safe">
+      <div class="section-subheader">
+        <span>INFORMASI TAMBAHAN (LANJUTAN)</span>
+      </div>
+      <div class="content-padding">
+        <p class="fw-bold text-sm">1) Definisi-definisi Penting (lanjutan):</p>
+        <ul style="font-size: 8pt; list-style-type: disc; padding-left: 18px">
+          <li>
+            <strong>Uang Pertanggungan</strong> adalah sejumlah nilai uang yang
+            menjadi hak Yang Ditunjuk apabila Tertanggung meninggal dunia.
+          </li>
+          <li>
+            <strong>Tanggal Mulai Pertanggungan</strong> adalah tanggal mulai
+            berlakunya pertanggungan sebagaimana tercantum dalam Ringkasan
+            Polis.
+          </li>
+          <li>
+            <strong>Tanggal Berakhir Pertanggungan</strong> adalah tanggal
+            berakhirnya pertanggungan sebagaimana tercantum dalam Ringkasan
+            Polis.
+          </li>
+          <li>
+            <strong>Premi</strong> adalah sejumlah uang yang wajib dibayar oleh
+            Pemegang Polis kepada Penanggung sesuai cara yang ditentukan dalam
+            Polis sebagai dasar untuk mendapatkan perlindungan asuransi jiwa dan
+            untuk kepentingan investasi.
+          </li>
+          <li>
+            <strong>Penerima Manfaat</strong> adalah orang atau badan yang
+            ditunjuk oleh Pemegang Polis sebagai pihak yang berhak atas Manfaat
+            Asuransi apabila Tertanggung mengalami peristiwa yang
+            dipertanggungkan dalam Polis, dengan ketentuan bahwa orang atau
+            badan tersebut mempunyai kepentingan terhadap Tertanggung atas
+            pertanggungan yang bersangkutan (insurable interest) dan sepanjang
+            tidak bertentangan dengan hukum dan peraturan perundang-undangan
+            yang berlaku di negara Republik Indonesia.
+          </li>
+          <li>
+            <strong>Manfaat Asuransi</strong> adalah jenis manfaat pertanggungan
+            yang akan dibayarkan oleh Penanggung kepada Penerima Manfaat, jika
+            syarat-syarat pembayarannya sebagaimana tercantum dalam Ketentuan
+            Polis telah dipenuhi.
+          </li>
+          <li>
+            <strong>Hari Kalender</strong> adalah semua hari dalam 1 (satu)
+            tahun sesuai dengan kalender tanpa terkecuali, termasuk hari Minggu
+            dan hari libur nasional yang ditetapkan sewaktu-waktu oleh
+            Pemerintah Republik Indonesia, dan Hari Kerja yang karena suatu
+            keadaan tertentu ditetapkan oleh Pemerintah Republik Indonesia
+            sebagai bukan Hari Kerja.
+          </li>
+          <li>
+            <strong>Hari Kerja</strong> berarti hari Senin sampai Jumat dimana
+            Penanggung menjalankan kegiatan usahanya, kecuali hari libur
+            nasional yang ditetapkan sewaktu-waktu oleh Pemerintah Republik
+            Indonesia atau yang karena suatu keadaan tertentu ditetapkan oleh
+            Pemerintah Republik Indonesia sebagai bukan Hari Kerja.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-block info-block page-safe">
+      <div class="section-subheader">
+        <span>INFORMASI TAMBAHAN (LANJUTAN)</span>
+      </div>
+      <div class="content-padding">
+        <p class="fw-bold text-sm">1) Definisi-definisi Penting (lanjutan):</p>
+        <ul style="font-size: 8pt; list-style-type: disc; padding-left: 18px">
+          <li>
+            <strong>Masa Garansi Asuransi</strong> merupakan tenggang waktu
+            investasi yang dijamin dan sama dengan Masa Asuransi.
+          </li>
+          <li>
+            <strong>Masa Asuransi</strong> merupakan masa berlakunya
+            perlindungan asuransi, yaitu sejak tanggal berlakunya atau tanggal
+            ulang Tahun Polis, sampai dengan tanggal ulang Tahun Polis
+            berikutnya atau tanggal Polis menjadi batal, mana yang lebih dahulu
+            terjadi.
+          </li>
+          <li>
+            <strong>Periode Pembayaran Investasi</strong> Waktu yang telah
+            disepakati untuk Pembayaran hasil Investasi antara Penanggung dan
+            Pemegang Polis.
+          </li>
+          <li>
+            <strong>Dana Investasi</strong> merupakan premi yang telah dikurangi
+            premi resiko dan biaya administrasi yang akan dikelola oleh
+            Penanggung untuk keperluan investasi.
+          </li>
+          <li>
+            <strong>Saldo Investasi</strong> merupakan sejumlah uang yang
+            terdiri dari Dana Investasi dan hasil pengembangannya.
+          </li>
+          <li>
+            <strong>Nilai Tunai</strong> merupakan nilai dari Polis (jika ada)
+            pada saat tertentu yang dapat dibayarkan kepada Pemegang
+            Polis/Penerima Manfaat, apabila Tertanggung tidak meneruskan
+            kepesertaannya sampai masa pertanggungan berakhir.
+          </li>
+          <li>
+            <strong>Kecelakaan</strong> merupakan peristiwa yang terjadi secara
+            tiba-tiba, tidak terduga sebelumnya, datang dari luar, bersifat
+            kekerasan tidak dikehendaki dan tidak ada unsur-unsur kesengajaan
+            yang merupakan penyebab langsung dan utama dari cedera, atau cacat
+            atau luka tubuh yang kasat mata.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-block info-block info-claim-section-break page-safe">
+      <div class="section-subheader">
+        <span>INFORMASI TAMBAHAN (LANJUTAN)</span>
+      </div>
+      <div class="content-padding">
+        <p class="fw-bold text-sm claim-section-title">
+          2) Prosedur dan tata cara pengajuan Klaim
+        </p>
+        <ol style="font-size: 8pt">
+          <li>
+            Pengajuan klaim atas manfaat meninggal dunia harus
+            dilaporkan/diajukan ke Penanggung selambat-lambatnya 90 (sembilan
+            puluh) Hari Kalender terhitung sejak tanggal meninggalnya
+            Tertanggung.
+          </li>
+          <li>
+            Pengajuan klaim atas manfaat penarikan Saldo Investasi dapat
+            dilakukan dengan menyerahkan dokumen sebagai berikut:
+            <p class="text-sm" style="margin: 2px 0">
+              a) Formulir pengajuan Klaim dari Pemegang Polis atau Penerima
+              Manfaat; dan
+            </p>
+            <p class="text-sm" style="margin: 2px 0">
+              b) Polis asli dalam hal dilakukan penarikan Saldo Investasi secara
+              keseluruhan; dan
+            </p>
+            <p class="text-sm" style="margin: 2px 0">
+              c) Fotokopi kartu identitas diri Pemegang Polis atau Penerima
+              Manfaat yang masih berlaku (KTP/Passpor/SIM).
+            </p>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section-block info-block page-safe">
+      <div class="section-subheader">
+        <span>INFORMASI TAMBAHAN (LANJUTAN)</span>
+      </div>
+      <div class="content-padding">
+        <p class="fw-bold text-sm">
+          2) Prosedur dan tata cara pengajuan Klaim (lanjutan):
+        </p>
+        <ol start="3" style="font-size: 8pt">
+          <li>
+            Pengajuan Klaim meninggal dunia karena Kecelakaan harus disertai
+            dengan dokumen pendukung sebagai berikut:
+            <ol style="font-size: 8pt" type="a">
+              <li>
+                Formulir pengajuan Klaim dari Pemegang Polis atau Penerima
+                Manfaat; dan
+              </li>
+              <li>
+                Polis asli atau bukti kepesertaan asuransi lainnya dari
+                Tertanggung; dan
+              </li>
+              <li>
+                Fotokopi kartu identitas dari Tertanggung yang masih berlaku
+                (KTP/SIM/Paspor); dan
+              </li>
+              <li>
+                Fotokopi kartu identitas diri Pemegang Polis atau Penerima
+                Manfaat yang masih berlaku (KTP/Passpor/SIM); dan
+              </li>
+              <li>
+                Fotokopi Kartu Keluarga atau alat bukti sah bahwa Penerima
+                Manfaat adalah keluarga atau yang telah ditunjuk Pemegang Polis
+                atau Tertanggung; dan
+              </li>
+              <li>
+                Surat keterangan kematian asli/legalisir dari Instansi yang
+                berwenang/Pamong Praja setempat (jika Tertanggung meninggal
+                dunia bukan di Rumah Sakit) atau dari Dokter/Rumah Sakit (jika
+                Tertanggung meninggal di Rumah Sakit); dan
+              </li>
+              <li>
+                Surat keterangan asli/legalisir dari Kepolisian disertai surat
+                keterangan kronologis Kecelakaan; dan
+              </li>
+              <li>
+                Surat keterangan pemakaman/kremasi yang dilegalisir dari
+                Instansi yang berwenang; dan
+              </li>
+              <li>
+                Surat keterangan dari Kedutaan Besar Republik Indonesia (KBRI)
+                jika Tertanggung meninggal di luar negeri.
+              </li>
+            </ol>
+          </li>
+          <li>
+            Ketentuan dan proses pengajuan Klaim lebih rinci diatur dalam Polis.
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section-block info-block page-safe">
+      <div class="section-subheader">
+        <span>INFORMASI TAMBAHAN (LANJUTAN)</span>
+      </div>
+      <div class="content-padding">
+        <ol start="3" style="font-size: 8pt">
+          <li>
+            Perusahaan Asuransi wajib untuk menginformasikan segala perubahan
+            atas manfaat, biaya, risiko, syarat, dan ketentuan Produk dan
+            Layanan ini melalui surat atau melalui cara-cara lainnya sesuai
+            dengan syarat dan ketentuan yang berlaku. Pemberitahuan tersebut
+            akan diinformasikan 30 (tiga puluh) hari sebelum efektif berlakunya
+            perubahan.
+          </li>
+          <li>
+            Anda akan menerima penawaran produk lain dari Pihak Ketiga apabila
+            menyetujui untuk membagikan data pribadi.
+          </li>
+          <li>
+            Informasi lain mengenai biaya, manfaat, dan risiko dapat diakses
+            melalui website: www.capitallife.co.id
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- ===== DISCLAIMER - DOMPDF SAFE ===== -->
+    <div class="section-block disclaimer-block page-safe">
+      <div class="section-subheader">
+        <span>Penafian/Disclaimer (penting untuk dibaca):</span>
+      </div>
+      <div class="content-padding">
+        <ol style="font-size: 8pt">
+          <li>
+            Anda telah membaca, menerima penjelasan, dan memahami produk
+            asuransi ini sesuai dengan Ringkasan Informasi Produk dan/atau
+            Layanan.
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section-block disclaimer-block page-safe">
+      <div class="content-padding">
+        <ol start="2" style="font-size: 8pt">
+          <li>
+            Ringkasan Informasi Produk dan/atau Layanan ini bukan merupakan
+            bagian dari aplikasi pengajuan asuransi dan polis.
+          </li>
+          <li>
+            Anda wajib untuk tetap membaca, memahami, dan menandatangani
+            aplikasi pengajuan asuransi dan polis.
+          </li>
+          <li>
+            Informasi yang tercakup dalam Ringkasan Informasi Produk dan/atau
+            Layanan ini berlaku sejak tanggal cetak dokumen sampai dengan 60
+            hari kalender sejak tanggal penerbitan.
+          </li>
+          <li>
+            Anda harus membaca dengan teliti Ringkasan Informasi Produk dan/atau
+            Layanan ini sebelum menyetujui pembelian produk dan berhak bertanya
+            kepada pegawai Perusahaan Asuransi atas semua hal terkait Ringkasan
+            Informasi Produk dan/atau Layanan ini.
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- ===== PERNYATAAN PEMEGANG POLIS ===== -->
+    <div class="section-block pernyataan-section" style="padding: 6px 8px">
+      <div class="pernyataan-table-wrap">
+        <div class="pernyataan-box-title">
+          Pernyataan Pemegang Polis terkait Pemahaman Produk
+        </div>
+        <div class="pernyataan-box-intro">
+          Bahwa saya selaku Pemegang Polis dengan ini menyatakan bahwa :
+        </div>
+        <table
+          class="pernyataan-table pernyataan-fixed"
+          width="100%"
+          cellspacing="0"
+          cellpadding="0"
+          style="margin-bottom: 0"
+        >
+          <colgroup>
+            <col class="col-no" width="6%" style="width: 6%" />
+            <col class="col-pemegang" width="66%" style="width: 66%" />
+            <col class="col-ya" width="14%" style="width: 14%" />
+            <col class="col-tidak" width="14%" style="width: 14%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th
+                class="col-no-cell"
+                width="6%"
+                style="width: 6%; text-align: center"
+              >
+                No
+              </th>
+              <th class="col-pemegang-cell" width="66%" style="width: 66%">
+                Pemegang Polis
+              </th>
+              <th class="col-ya-cell" width="14%" style="width: 14%">Ya</th>
+              <th class="col-tidak-cell" width="14%" style="width: 14%">
+                Tidak
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="col-no-cell"
+                width="6%"
+                style="width: 6%; text-align: center"
+              >
+                1
+              </td>
+              <td
+                class="justify col-pemegang-cell"
+                width="66%"
+                style="width: 66%"
+              >
+                Telah menerima Ringkasan Informasi Produk dan Layanan dan
+                mendapatkan penjelasan dari Tenaga Pemasar, dan membaca serta
+                memahami informasi penting yang tercantum dalam dokumen tersebut
+                termasuk fitur Produk Asuransi, manfaat asuransi, serta
+                biaya-biaya yang akan dibebankan kepada saya.
+              </td>
+              <td class="col-ya-cell" width="14%" style="width: 14%"></td>
+              <td class="col-tidak-cell" width="14%" style="width: 14%"></td>
+            </tr>
+            <tr>
+              <td
+                class="col-no-cell"
+                width="6%"
+                style="width: 6%; text-align: center"
+              >
+                2
+              </td>
+              <td
+                class="justify col-pemegang-cell"
+                width="66%"
+                style="width: 66%"
+              >
+                Saya memahami bahwa manfaat asuransi ini berupa manfaat
+                perlindungan atas risiko meninggal dunia karena Kecelakaan hanya
+                akan diberikan jika terjadi risiko sebagaimana tercantum dalam
+                Polis Asuransi.
+              </td>
+              <td class="col-ya-cell" width="14%" style="width: 14%"></td>
+              <td class="col-tidak-cell" width="14%" style="width: 14%"></td>
+            </tr>
+            <tr>
+              <td
+                class="col-no-cell"
+                width="6%"
+                style="width: 6%; text-align: center"
+              >
+                3
+              </td>
+              <td
+                class="justify col-pemegang-cell"
+                width="66%"
+                style="width: 66%"
+              >
+                Saya memahami bahwa pada Produk Asuransi terdapat klausul
+                Pengecualian sehingga manfaat perlindungan risiko tidak dapat
+                dibayarkan dalam hal terjadi kondisi yang dikecualikan tersebut.
+              </td>
+              <td class="col-ya-cell" width="14%" style="width: 14%"></td>
+              <td class="col-tidak-cell" width="14%" style="width: 14%"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p
+        style="
+          text-align: right;
+          font-size: 8pt;
+          margin-top: 12px;
+          margin-bottom: 6px;
+        "
+      >
+        Ditandatangani di: ______________________, tanggal, ________________
+      </p>
+      <!-- ===== TANDA TANGAN ===== -->
+      <table class="ttd-table ttd-two-col">
+        <tr>
+          <td class="ttd-header fw-bold" style="width: 50%; text-align: center">
+            Tanda tangan dan nama<br /><strong>Tenaga Pemasar</strong>
+          </td>
+          <td class="ttd-header fw-bold" style="width: 50%; text-align: center">
+            Tanda tangan dan nama<br /><strong>Pemegang Polis</strong>
+          </td>
+        </tr>
+        <tr>
+          <td class="ttd-spacer" style="width: 50%"></td>
+          <td class="ttd-spacer" style="width: 50%"></td>
+        </tr>
+        <tr>
+          <td
+            style="
+              width: 50%;
+              border-top: 1px solid #000;
+              padding: 3px 6px;
+              font-size: 8pt;
+            "
+          >
+            Nama Lengkap:
+          </td>
+          <td
+            style="
+              width: 50%;
+              border-top: 1px solid #000;
+              padding: 3px 6px;
+              font-size: 8pt;
+            "
+          >
+            Nama Lengkap: {cpp_nama_pp}
+          </td>
+        </tr>
+      </table>
+      <!-- ===== FOOTER ===== -->
+      <table class="footer-table footer-with-logo" style="margin-top: 15px">
+        <tr>
+          <td
+            class="footer-left"
+            style="
+              width: 45%;
+              text-align: left;
+              font-size: 7.5pt;
+              font-weight: bold;
+            "
+          >
+            <img
+              alt="Logo PT Capital Life Indonesia"
+              class="footer-logo-img"
+              src="data:image/jpeg;base64,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"
+            />
+            <br />
+            PT Capital Life Indonesia berizin dan diawasi oleh Otoritas Jasa
+            Keuangan (OJK)
+          </td>
+          <td style="width: 10%; border: none"> </td>
+          <td
+            class="footer-right"
+            style="width: 45%; text-align: right; font-size: 7.5pt; color: #666"
+          >
+            Tanggal Cetak Dokumen
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

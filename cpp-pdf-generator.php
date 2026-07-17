@@ -15,7 +15,7 @@ function cpp_template_files()
 {
     return array(
         'USD' => __DIR__ . '/USD-New.html',
-        'IDR' => __DIR__ . '/IDR-New.html',
+        'IDR' => __DIR__ . '/IDR-NEW.html',
     );
 }
 
